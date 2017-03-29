@@ -10,11 +10,18 @@
 
 class Buffer {
 public:
-	Buffer();
+	Buffer(char* file);
 	virtual ~Buffer();
 
 	char getChar();
 	void ungetChar();
+
+private:
+	void fillBuffer();
+
+	char* buffer1;
+	char* buffer2;
+
 };
 
 #endif /* BUFFER_H_ */
