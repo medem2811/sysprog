@@ -7,27 +7,24 @@
 
 #include "../includes/Buffer.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 #include <stdlib.h>
 
 
-fstream inputFile;
+ifstream inputFile;
 const int Buffer_Limit = 1024;
 
 Buffer::Buffer(char* filename) {
 	// TODO Auto-generated constructor stub
-	char* buffer1; //Pointer to the Buffers
-	char* buffer2;
 
 	//malloc allocates memory
-	buffer1 = malloc(Buffer_Limit);
-	buffer2 = malloc(Buffer_Limit);
+	buffer1 = (char*) malloc(Buffer_Limit);
+	buffer2 = (char*) malloc(Buffer_Limit);
 
-	//Pointer that shows where user is
-	char * next;
-
+	next = buffer1;
 	//file
-	fstream inputFile (filename);
+	inputFile.open(filename);
 }
 
 Buffer::~Buffer() {
@@ -38,9 +35,21 @@ Buffer::~Buffer() {
 
 }
 
+void Buffer::fillBuffer (char* buffer) {
+
+	inputFile.read(buffer, Buffer_Limit - 1);
+	cout << inputFile.gcount() << " charcaters read.";
+}
+
+
 char Buffer::getChar() {
 
-	return 'v';
+	inputFile.read(buffer1, Buffer_Limit - 1);
+	cout << inputFile.gcount() << " charcaters read.";
+
+
+	return buffer1[0];
+
 }
 
 void Buffer::ungetChar() {

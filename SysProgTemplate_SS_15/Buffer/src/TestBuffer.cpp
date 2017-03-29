@@ -11,20 +11,7 @@ int main(int argc, char **argv) {
 	buffer = new Buffer(argv[1]);
 
 	if (argc > 1) {
-		ifstream file (argv[1]);
-
-		char c;
-		int a = 0;
-		if (file.is_open()) {
-			cout << "it's britney, bitch"<<endl;
-			while (file.get(c)) {
-				cout << c;
-			}
-		} else {
-			cout << "shit." <<endl;
-		}
-
-		file.close();
+		cout << buffer->getChar();
 	}
 
 	return 0;

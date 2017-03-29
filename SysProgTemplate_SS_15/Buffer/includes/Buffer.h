@@ -17,10 +17,11 @@ public:
 	void ungetChar();
 
 private:
-	void fillBuffer();
+	void fillBuffer(char* buffer);
 
 	char* buffer1;
 	char* buffer2;
+	char* next;
 
 };
 
