@@ -10,8 +10,11 @@ int main(int argc, char **argv) {
 
 	buffer = new Buffer(argv[1]);
 
+
 	if (argc > 1) {
-		cout << buffer->getChar();
+		while (!buffer->eof()) {
+			cout << buffer->getChar();
+		}
 	}
 
 	return 0;

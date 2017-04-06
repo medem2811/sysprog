@@ -13,7 +13,7 @@ using namespace std;
 
 
 ifstream inputFile;
-const int Buffer_Limit = 1024;
+const int Buffer_Limit = 8;
 
 /*
  * Constructor: allocates memory for the buffer and opens
@@ -64,24 +64,28 @@ bool Buffer::eof() {
  */
 char Buffer::getChar() {
 
-	char currentChar = next;
+	char currentChar = *next;
 
 	//checks if end-of-Flag flag was set in last read
 	//if not then the next pointer moves forward normally
-	if(next != '\0' && !inputFile.eof() ) {
+	if(*next != '\0' && !inputFile.eof() ) {
 		next++;
 
-	} else if (next == '\0' && !inputFile.eof()) {
+	} else if (*next == '\0' && !inputFile.eof()) {
 		if (activeBuffer == 1) {
 			inputFile.read(buffer2, Buffer_Limit - 1);
 			activeBuffer = 2;
+			cout << endl << "Buffer switch." << endl;
 
 			next = &buffer2[0];
+			currentChar = *next;
 		} else {
 			inputFile.read(buffer1, Buffer_Limit - 1);
 			activeBuffer = 1;
 
+			cout << endl << "Buffer switch." << endl;
 			next = &buffer1[0];
+			currentChar = *next;
 		}
 	} else {
 		endOfFile = true;
