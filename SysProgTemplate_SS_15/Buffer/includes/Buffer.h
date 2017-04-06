@@ -15,11 +15,13 @@ public:
 
 	char getChar();
 	void ungetChar();
+	bool eof();
 
 private:
 	char* buffer1;
 	char* buffer2;
 	char* next;
+	bool endOfFile;
 
 	int activeBuffer;
 

@@ -30,11 +30,16 @@ Buffer::Buffer(char* filename) {
 		buffer2[n] = '\0';
 	}
 
+	//file
+	inputFile.open(filename);
+
+	//fills Buffer1 so that getChar can work
+	inputFile.read(buffer1, Buffer_Limit - 1);
+
 	next = &buffer1[0];
 	activeBuffer = 1;
 
-	//file
-	inputFile.open(filename);
+	endOfFile = false;
 
 }
 
@@ -43,11 +48,13 @@ Buffer::Buffer(char* filename) {
  * closes file
  */
 Buffer::~Buffer() {
-	// TODO Auto-generated destructor stub
-	inputFile.close();
 	free (buffer1);
 	free (buffer2);
 
+}
+
+bool Buffer::eof() {
+	return endOfFile;
 }
 
 /*
@@ -57,19 +64,32 @@ Buffer::~Buffer() {
  */
 char Buffer::getChar() {
 
-	char currentChar;
+	char currentChar = next;
 
-	inputFile.read(buffer1, Buffer_Limit - 1);
+	//checks if end-of-Flag flag was set in last read
+	//if not then the next pointer moves forward normally
+	if(next != '\0' && !inputFile.eof() ) {
+		next++;
 
-	inputFile.read(buffer2, Buffer_Limit - 1);
+	} else if (next == '\0' && !inputFile.eof()) {
+		if (activeBuffer == 1) {
+			inputFile.read(buffer2, Buffer_Limit - 1);
+			activeBuffer = 2;
 
-	if(next != '\0') {
+			next = &buffer2[0];
+		} else {
+			inputFile.read(buffer1, Buffer_Limit - 1);
+			activeBuffer = 1;
 
+			next = &buffer1[0];
+		}
+	} else {
+		endOfFile = true;
+		inputFile.close();
 	}
 
 
-
-	return '\0';
+	return currentChar;
 
 }
 
