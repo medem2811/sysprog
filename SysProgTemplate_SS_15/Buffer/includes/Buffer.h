@@ -23,6 +23,8 @@ private:
 	char* next;
 	bool endOfFile;
 
+	void emptyBuffer();
+
 	int activeBuffer;
 
 };

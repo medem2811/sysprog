@@ -57,6 +57,20 @@ bool Buffer::eof() {
 	return endOfFile;
 }
 
+void Buffer::emptyBuffer () {
+
+	if (activeBuffer == 1) {
+		for (int n=0; n<=Buffer_Limit; n++) {
+					buffer2[n] = '\0';
+			}
+	} else {
+		for (int n=0; n<=Buffer_Limit; n++) {
+					buffer1[n] = '\0';
+			}
+	}
+
+}
+
 /*
  * fills Buffers and reads current char from
  * buffer. If one buffer is full it switches to the next one.
@@ -68,26 +82,26 @@ char Buffer::getChar() {
 
 	//checks if end-of-Flag flag was set in last read
 	//if not then the next pointer moves forward normally
-	if(*next != '\0' && !inputFile.eof() ) {
+	if(currentChar != '\0') {
 		next++;
 
-	} else if (*next == '\0' && !inputFile.eof()) {
+	} else if (currentChar == '\0' && !inputFile.eof()) {
 		if (activeBuffer == 1) {
+			emptyBuffer();
 			inputFile.read(buffer2, Buffer_Limit - 1);
 			activeBuffer = 2;
-			cout << endl << "Buffer switch." << endl;
 
 			next = &buffer2[0];
-			currentChar = *next;
+			return getChar();
 		} else {
+			emptyBuffer();
 			inputFile.read(buffer1, Buffer_Limit - 1);
 			activeBuffer = 1;
 
-			cout << endl << "Buffer switch." << endl;
 			next = &buffer1[0];
-			currentChar = *next;
+			return getChar();
 		}
-	} else {
+	}else {
 		endOfFile = true;
 		inputFile.close();
 	}
