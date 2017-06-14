@@ -13,7 +13,7 @@ using namespace std;
 
 
 ifstream inputFile;
-const int Buffer_Limit = 8;
+const int Buffer_Limit = 1024;
 
 /*
  * Constructor: allocates memory for the buffer and opens
@@ -116,6 +116,15 @@ char Buffer::getChar() {
  * lets you read the same char again
  */
 void Buffer::ungetChar() {
+
+	if (next != &buffer1[0] && next != &buffer2[0]) {
+		next--;
+	} else if (next == &buffer1[0]) {
+		next = &buffer2[Buffer_Limit - 2];
+	} else {
+		next = &buffer1[Buffer_Limit - 2];
+	}
+
 
 }
 
