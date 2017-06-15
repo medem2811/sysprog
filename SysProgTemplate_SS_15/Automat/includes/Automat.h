@@ -16,13 +16,20 @@ public:
 	virtual ~Automat();
 	bool checkChar(char c);
 
-	int column;
-	int line;
+	int getLine();
+	int getColumn();
+	State::Type getLastFinalState();
 
 private:
-	State::Type stateMatrix[(State::StateCount)][256];
+	State::Type stateMatrix[(State::StateCount)][128];
 	bool finalStates [(State::StateCount)];
+
 	State::Type currentState;
+	State::Type lastFinalState;
+
+	int column;
+	int line;
+	int tokenColumn;
 };
 
 #endif /* Automat_H_ */
