@@ -11,9 +11,11 @@ SYMBOLTABLEDIR = Symboltable
 
 SCANNERDIR = Scanner
 
+TOKENDIR = Token
 
 
-all:	automatOBJs bufferOBJs symboltableOBJs scanner  
+
+all:	automatOBJs bufferOBJs symboltableOBJs tokenOBJs scanner  
 	@echo "target all"
 
 	
@@ -24,6 +26,7 @@ clean:
 	rm -f $(BUFFERDIR)/$(OBJDIR)/*.o
 	rm -f $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o
 	rm -f $(SCANNERDIR)/$(OBJDIR)/*.o
+	rm -f $(TOKENDIR)/$(OBJDIR)/*.o
 	rm -f $(SCANNERDIR)/debug/*
 	
 
@@ -38,8 +41,12 @@ bufferOBJs:
 symboltableOBJs:
 	$(MAKE) -C $(SYMBOLTABLEDIR) SymboltableOBJTarget
 	
+tokenOBJs: 
+	$(MAKE) -C $(TOKENDIR) TokenOBJTarget
 
 scanner: 
 	$(MAKE) -C $(SCANNERDIR) makeTestScanner
+	
+
 
 	

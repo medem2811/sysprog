@@ -12,20 +12,20 @@ int main(int argc, char **argv) {
 
 
 	if (argc > 1) {
-			for (int i = 0; i < 100; i++) {
+			for (int i = 0; i < 7; i++) {
 				cout << buffer->getChar();
 			}
 
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 7; j++) {
 				buffer->ungetChar();
 			}
 
-			for (int k = 0; k < 10; k++) {
+			for (int k = 0; k < 7; k++) {
 				cout << buffer->getChar();
 			}
 
 			while (!buffer->eof()) {
-				buffer->getChar();
+				cout << buffer->getChar();
 			}
 
 	}
