@@ -24,7 +24,7 @@ private:
 	Automat* automat;
 	Buffer* buffer;
 
-	const int Buffer_Size = 1024;
+	int Buffer_Size;
 
 	char* value;
 	State::Type type;

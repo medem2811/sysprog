@@ -18,6 +18,7 @@ using namespace std;
  */
 Scanner::Scanner(char* filename) {
 
+	Buffer_Size = 1024;
 
 	automat = new Automat();
 	buffer = new Buffer(filename, Buffer_Size);
