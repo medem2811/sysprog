@@ -16,6 +16,8 @@ public:
 	virtual ~Automat();
 	bool checkChar(char c);
 
+	int getTokenLine();
+	int getTokenColumn();
 	int getLine();
 	int getColumn();
 	State::Type getLastFinalState();
@@ -30,6 +32,7 @@ private:
 	int column;
 	int line;
 	int tokenColumn;
+	int tokenLine;
 };
 
 #endif /* Automat_H_ */

@@ -19,6 +19,8 @@ BUFFERDIR = ../Buffer
 
 SYMBOLTABLEDIR = ../Symboltable
 
+TOKEDIR = ../Token
+
 
 ## hier alle Object Files eintragen, ausser das File mit der Mainmethode
 ## darauf achten, dass letzte Zeile ohne "\" eingetragen wird
@@ -63,7 +65,7 @@ $(OBJDIR)/%.o :  $(SRCDIR)/%.cpp $(HEADERDIR)/%.h
 
 ScannerTest: $(SRCDIR)/TestScanner.cpp $(HEADERDIR)/Scanner.h
 	g++ -g  -c -Wall src/TestScanner.cpp -o $(BINDIRTEST)/TestScanner.o  
-	g++ -g $(BINDIRTEST)/TestScanner.o $(OBJDIR)/*.o $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o -o $(BINDIRTEST)/ScannerTest
+	g++ -g $(BINDIRTEST)/TestScanner.o $(OBJDIR)/*.o $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o $(TOKEDIR)/$(OBJDIR)/*.o -o $(BINDIRTEST)/ScannerTest
 
 # loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu erstellen
 

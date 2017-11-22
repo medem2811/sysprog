@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
 
 	Buffer*  buffer;
 
-	buffer = new Buffer(argv[1]);
+	buffer = new Buffer(argv[1], 1024);
 
 
 	if (argc > 1) {

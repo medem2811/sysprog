@@ -8,10 +8,33 @@
 #ifndef SCANNER_H_
 #define SCANNER_H_
 
+#include "../../Automat/includes/Automat.h"
+#include "../../Buffer/includes/Buffer.h"
+#include "../../Token/includes/Token.h"
+
 class Scanner {
 public:
-	Scanner();
+	Scanner(char* filename);
 	virtual ~Scanner();
+
+	Token* nextToken();
+	bool eof();
+
+private:
+	Automat* automat;
+	Buffer* buffer;
+
+	const int Buffer_Size = 1024;
+
+	char* value;
+	State::Type type;
+
+	char* tempChars;
+
+	Token* createToken(char* value, int line, int column, State::Type type);
+	void resetTemp();
+
+
 };
 
 #endif /* SCANNER_H_ */

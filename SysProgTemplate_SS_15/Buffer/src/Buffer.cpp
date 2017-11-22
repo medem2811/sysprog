@@ -13,19 +13,19 @@ using namespace std;
 
 
 ifstream inputFile;
-const int Buffer_Limit = 1024;
 
 /*
  * Constructor: allocates memory for the buffer and opens
  * inputFile
  */
-Buffer::Buffer(char* filename) {
+Buffer::Buffer(char* filename, int size) {
 
 	//malloc allocates memory
-	buffer1 = (char*) malloc(Buffer_Limit);
-	buffer2 = (char*) malloc(Buffer_Limit);
+	this->size = size;
+	buffer1 = (char*) malloc(size);
+	buffer2 = (char*) malloc(size);
 
-	for (int n=0; n<=Buffer_Limit; n++) {
+	for (int n=0; n<=size; n++) {
 		buffer1[n] = '\0';
 		buffer2[n] = '\0';
 	}
@@ -34,7 +34,7 @@ Buffer::Buffer(char* filename) {
 	inputFile.open(filename);
 
 	//fills Buffer1 so that getChar can work
-	inputFile.read(buffer1, Buffer_Limit - 1);
+	inputFile.read(buffer1, size - 1);
 
 	next = &buffer1[0];
 	activeBuffer = 1;
@@ -60,11 +60,11 @@ bool Buffer::eof() {
 void Buffer::emptyBuffer () {
 
 	if (activeBuffer == 1) {
-		for (int n=0; n<=Buffer_Limit; n++) {
+		for (int n=0; n<=size; n++) {
 					buffer2[n] = '\0';
 			}
 	} else {
-		for (int n=0; n<=Buffer_Limit; n++) {
+		for (int n=0; n<=size; n++) {
 					buffer1[n] = '\0';
 			}
 	}
@@ -88,14 +88,14 @@ char Buffer::getChar() {
 	} else if (currentChar == '\0' && !inputFile.eof()) {
 		if (activeBuffer == 1) {
 			emptyBuffer();
-			inputFile.read(buffer2, Buffer_Limit - 1);
+			inputFile.read(buffer2, size - 1);
 			activeBuffer = 2;
 
 			next = &buffer2[0];
 			return getChar();
 		} else {
 			emptyBuffer();
-			inputFile.read(buffer1, Buffer_Limit - 1);
+			inputFile.read(buffer1, size - 1);
 			activeBuffer = 1;
 
 			next = &buffer1[0];
@@ -120,9 +120,9 @@ void Buffer::ungetChar() {
 	if (next != &buffer1[0] && next != &buffer2[0]) {
 		next--;
 	} else if (next == &buffer1[0]) {
-		next = &buffer2[Buffer_Limit - 2];
+		next = &buffer2[size - 2];
 	} else {
-		next = &buffer1[Buffer_Limit - 2];
+		next = &buffer1[size - 2];
 	}
 
 

@@ -10,7 +10,7 @@
 
 class Buffer {
 public:
-	Buffer(char* file);
+	Buffer(char* file, int size);
 	virtual ~Buffer();
 
 	char getChar();
@@ -21,6 +21,7 @@ private:
 	char* buffer1;
 	char* buffer2;
 	char* next;
+	int size;
 	bool endOfFile;
 
 	void emptyBuffer();

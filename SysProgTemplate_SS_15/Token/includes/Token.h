@@ -7,17 +7,19 @@
 
 #ifndef TOKEN_H_
 #define TOKEN_H_
-#
+#include <stdlib.h>
+#include <stdio.h>
+#include "../../Automat/includes/State.h"
 
 
 class Token {
 public:
-	Token(char* value, int line, int column, State::Type type);
+	Token(char* value, int line, int column , State::Type type);
 	virtual ~Token();
 
 	State::Type getType();
 	char* getValue();
-	int getValue();
+	int getValueInt();
 	int getLine();
 	int getColumn();
 

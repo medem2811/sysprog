@@ -27,5 +27,34 @@ Token::Token (char* value, int line, int column, State::Type type) {
 		contentInt = strtol(value, NULL, 10);
 	}
 
+	if(contentInt == -1) {
+		type = State::Undefined;
+
+		//ERROR PRINT OUT
+	}
+}
+
+Token::~Token() {
+}
+
+/*
+ * GETTER
+ */
+
+State::Type Token::getType() {
+	return type;
+}
+
+char* Token::getValue(){
+	return content;
+}
+int Token::getValueInt(){
+	return contentInt;
+}
+int Token::getLine() {
+	return line;
+}
+int Token::getColumn() {
+	return column;
 }
 
