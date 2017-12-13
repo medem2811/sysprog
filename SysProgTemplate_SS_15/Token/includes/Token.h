@@ -14,7 +14,7 @@
 
 class Token {
 public:
-	Token(char* value, int line, int column , State::Type type);
+	Token(char* value, int line, int column , State::Type type, int size);
 	virtual ~Token();
 
 	State::Type getType();

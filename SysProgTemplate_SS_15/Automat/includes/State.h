@@ -14,7 +14,6 @@ public:
 		Start,
 		Undefined,
 		Number,
-		Error,
 		StateCount
 		
 	};

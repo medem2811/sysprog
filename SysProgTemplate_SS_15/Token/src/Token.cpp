@@ -15,16 +15,24 @@
  * @param type: Tokentype
  */
 
-Token::Token (char* value, int line, int column, State::Type type) {
+Token::Token (char* value, int line, int column, State::Type type, int size) {
 
 	this->type = type;
 	this->column = column;
 	this->line = line;
-	this->content = value;
 	this->contentInt = 0;
+	this->content = new char[size];
 
 	if (type == State::Number) {
 		contentInt = strtol(value, NULL, 10);
+	} else {
+		int i = 0;
+		while (value[i] != '\0') {
+			content [i] = value[i];
+			i++;
+
+		}
+
 	}
 
 	if(contentInt == -1) {
@@ -32,6 +40,7 @@ Token::Token (char* value, int line, int column, State::Type type) {
 
 		//ERROR PRINT OUT
 	}
+
 }
 
 Token::~Token() {

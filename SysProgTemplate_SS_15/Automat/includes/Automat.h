@@ -18,9 +18,8 @@ public:
 
 	int getTokenLine();
 	int getTokenColumn();
-	int getLine();
-	int getColumn();
 	State::Type getLastFinalState();
+	void reset(int steps);
 
 private:
 	State::Type stateMatrix[(State::StateCount)][128];

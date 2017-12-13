@@ -66,16 +66,12 @@ bool Automat::checkChar(char c) {
 		line ++;
 		column = 1;
 		currentState = State::Start;
-	//to reset the automat after the Scanner found a Token
-	//e.g. if there's no space between this and the
-	//next token
-	} else if (c == '\0'){
 
-		currentState = State::Start;
 	//actual chars as input
 	} else {
 		//save the start column of token or error
 		if(currentState == State::Start) {
+			tokenLine = line;
 			tokenColumn = column;
 		}
 
@@ -91,7 +87,7 @@ bool Automat::checkChar(char c) {
 
 		//Reset the Automat
 		if(currentState == State::Undefined) {
-					currentState = State::Start;
+			currentState = State::Start;
 		}
 	}
 
@@ -107,13 +103,6 @@ int Automat::getTokenLine() {
 }
 
 /*
- * Returns current Line for scanner
- */
-int Automat::getLine() {
-	return line;
-}
-
-/*
  * Returns the saved column number for the Token
  */
 int Automat::getTokenColumn() {
@@ -121,15 +110,18 @@ int Automat::getTokenColumn() {
 }
 
 /*
- * Returns current column for Scanner
- */
-int Automat::getColumn() {
-	return column;
-}
-
-/*
  * Returns the Final state that was reached last
  */
 State::Type Automat::getLastFinalState(){
 	return lastFinalState;
+}
+
+/*
+ * sets currentStat back to start and
+ * reduces column by 1 to not mess with counting
+ */
+void Automat::reset(int steps) {
+
+	currentState = State::Start;
+	column -= steps;
 }

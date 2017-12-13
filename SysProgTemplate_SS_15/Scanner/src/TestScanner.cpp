@@ -15,7 +15,12 @@ int main(int argc, char **argv) {
 		cout << "TokenType: " << t-> getType();
 		cout << " line: " << t-> getLine();
 		cout << " column: " << t-> getColumn();
-		cout << " value: " << t-> getValue();
+		if(t->getType() == 2) {
+			cout << " value: " << t-> getValueInt();
+		} else {
+			cout << " value: " << t-> getValue();
+		}
+		cout << endl;
 	}
 
 

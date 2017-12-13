@@ -31,8 +31,7 @@ private:
 
 	char* tempChars;
 
-	Token* createToken(char* value, int line, int column, State::Type type);
-	void resetTemp();
+	Token* createToken(char* value, int line, int column, State::Type type, int size);
 
 
 };
