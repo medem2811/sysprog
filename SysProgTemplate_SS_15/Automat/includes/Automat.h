@@ -19,7 +19,9 @@ public:
 	int getTokenLine();
 	int getTokenColumn();
 	State::Type getLastFinalState();
-	void reset(int steps);
+	State::Type reset(int steps, int lines);
+	bool isComment();
+	bool isCompatible(State::Type type1, State::Type type2);
 
 private:
 	State::Type stateMatrix[(State::StateCount)][128];
@@ -27,8 +29,10 @@ private:
 
 	State::Type currentState;
 	State::Type lastFinalState;
+	State::Type lookBackState;
 
 	int column;
+	int prevColumn;
 	int line;
 	int tokenColumn;
 	int tokenLine;

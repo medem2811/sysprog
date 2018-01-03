@@ -15,12 +15,14 @@ int main(int argc, char **argv) {
 		cout << "TokenType: " << t-> getType();
 		cout << " line: " << t-> getLine();
 		cout << " column: " << t-> getColumn();
-		if(t->getType() == 2) {
+		if(t->getType() == State::Integer) {
 			cout << " value: " << t-> getValueInt();
 		} else {
 			cout << " value: " << t-> getValue();
+
 		}
 		cout << endl;
+
 	}
 
 

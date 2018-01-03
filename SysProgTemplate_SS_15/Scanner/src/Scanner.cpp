@@ -56,92 +56,143 @@ Token* Scanner::nextToken() {
 	State::Type tokenType = State::Start;
 	//Token size
 	int size = 0;
+	//to check if it's =:
+	bool eColon = false;
 
 	do { //start reading from buffer until a token is found
 
 		c = buffer->getChar();
 
-		if (c == ' ') { //whitespace
-			//skip until Token, automat counts lines etc up
+		if (eof()) {
+			tokenType = automat->getLastFinalState();
+			isToken = true;
+
+		} else if (automat->isComment()) {
 			automat->checkChar(c);
+			isToken = false;
+		}else {
+			if (c == ' ' || c == '\t' || c == '\n') { //whitespace
+				//to keep automat counting
+				automat->checkChar(c);
 
-			//if values is empty it means that the last Token has
-			//already been created
-			if (value[0] != '\0') {
-				//chars stored in values up until this whitespace must belong
-				//to a Token, so new Token is created
-				isToken = true;
-			}
-		} else {
-			//automat calculates the new active state
-			//and returns whether the new state is a final state
-			bool finalState = automat->checkChar(c);
-
-			//if the new state is not a final state
-			//it just saves the current char in values
-			//p moves forward
-			//and the loop continues
-			if (finalState == false) {
-				//add new char to value
-				*p = c;
-				p++;
-				size++;
-				isToken = false;
-
-			} //a final state has been reached but it's an error
-			//all previoulsy stored chars are a new Token --> like whitespace case
-			else if (finalState && automat->getLastFinalState() == State::Undefined) {
-
-				//if values is not empty error is new value
+				//if values is empty it means that the last Token has
+				//already been created
 				if (value[0] != '\0') {
-					//unget Char so that the error Token can be created in the
-					//next round
-					buffer->ungetChar();
-					//set currentState back and reduce column by 1
-					//so the column remains correct
-					automat->reset(1);
 
-				} else {
-					//save error as value and state as error
-					*p = c;
-					p++;
-					size++;
+					if (eColon) {
+						buffer->ungetChar();
+						buffer->ungetChar();
+						if (c == '\n') {
+							automat->reset(1, 1);
+						} else {
+							automat->reset(2, 0);
+						}
+						value[1] = '\0';
+						size--;
+					}
+					//chars stored in values up until this whitespace must belong
+					//to a Token, so new Token is created
 					tokenType = automat->getLastFinalState();
-				}
-				//either way the Token is finished
-				//automat back to start
-				automat->reset(0);
-				isToken = true;
-
-			} //if Token was in a final State but not sure if it was finished
-			else {
-
-				//see if previous states are incompatible like ifhello
-				//TODO: different cases have to be evaluated like & is error and && is token
-				if (tokenType != State::Start &&
-					automat->getLastFinalState() != tokenType) {
-
 					isToken = true;
-					//ungetChar from buffer so that new Token can be created in new round
-					buffer->ungetChar();
-					//set automat back to start state and go a step back
-					automat->reset(1);
+				}
+			} else {
+				//automat calculates the new active state
+				//and returns whether the new state is a final state
+				bool finalState = automat->checkChar(c);
+				State::Type lastFinalState = automat->getLastFinalState();
 
-				}//else if compatible like hello5 then continue
-				//tokeType is only saved when the automat reached a final state that is compatible
-				//with a previously reached final state
-				else {
+				//checks if a comment just started
+				if (automat->isComment()) {
+					value[0] = '\0';
+					value[1] = '\0';
+					size = 0;
+					p = value;
+					tokenType = State::Start;
+
+				}
+				//if the new state is not a final state
+				//it just saves the current char in values
+				//p moves forward
+				//and the loop continues
+				else if (!finalState) {
+					//add new char to value
 					*p = c;
 					p++;
 					size++;
-					tokenType = automat->getLastFinalState();
 					isToken = false;
+					eColon = c == ':';
+
+
+				} //a final state has been reached but it's an error
+				//all previoulsy stored chars are a new Token --> like whitespace case
+				else if (finalState && lastFinalState == State::Undefined) {
+
+					//if values is not empty error is new value
+					if (value[0] != '\0') {
+						//unget Char so that the error Token can be created in the
+						//next round
+						buffer->ungetChar();
+
+						//set currentState back and reduce column by 1
+						//so the column remains correct
+						tokenType = automat->reset(1, 0);
+
+						if (eColon && c != '=') {
+							buffer->ungetChar();
+							automat->reset(1, 0);
+
+							value[1] = '\0';
+							size--;
+							tokenType = State::signEquals;
+						}
+						isToken = true;
+
+					} else {
+						//save error as value and state as error
+						eColon = false;
+						*p = c;
+						p++;
+						size++;
+						tokenType = lastFinalState;
+						automat->reset(0, 0);
+					}
+					//either way the Token is finished
+					isToken = true;
+
+				}
+				//if Token was in a final State but not sure if it was finished
+				else {
+
+					//see if previous states are incompatible like ifhello
+					if (tokenType != State::Start && !automat->isCompatible(tokenType, lastFinalState)) {
+
+						isToken = true;
+						tokenType = lastFinalState;
+						//ungetChar from buffer so that new Token can be created in new round
+						buffer->ungetChar();
+						//set automat back to start state and go a step back
+						automat->reset(1, 0);
+
+					}//else if compatible like hello5 then continue
+					//tokeType is only saved when the automat reached a final state that is compatible
+					//with a previously reached final state
+					else {
+						eColon = false;
+						*p = c;
+						p++;
+						size++;
+						tokenType = lastFinalState;
+						isToken = false;
+					}
 				}
 			}
 		}
 
 	} while (!isToken);
 
+	if ((int)tokenType <= (int)State::stateI && (int)tokenType >= (int)State::statew) {
+		tokenType = State::Identifier;
+	}
 
 	token = createToken(value, automat->getTokenLine(), automat->getTokenColumn(), tokenType, size);
 
@@ -153,8 +204,10 @@ Token* Scanner::nextToken() {
 
 	//check if eof is the next symbol
 	//if yes then the eof flag has been switched in buffer
-	buffer->getChar();
-	buffer->ungetChar();
+	if (!eof()) {
+		buffer->getChar();
+		buffer->ungetChar();
+	}
 
 	return token;
 }

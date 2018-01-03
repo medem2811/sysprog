@@ -11,7 +11,7 @@ lol*:
 <Smallz>Biggz
 lol=Equals
 lol:=123
-AISFH=:=KÖWJF
+AISFH=:=KoWJF
 123!
 & &&
 Semi;colon

@@ -13,10 +13,12 @@ Automat::Automat() {
 
 	currentState = State::Start;
 	column = 1;
+	prevColumn = column;
 	line = 1;
 	tokenColumn = 1;
 	tokenLine = 1;
 	lastFinalState = State::Undefined;
+	lookBackState = State::Undefined;
 
 	//fill matrix with undefined states
 	for (int i = 0; i < (int) State::StateCount; i++)  {
@@ -37,6 +39,17 @@ Automat::Automat() {
 		stateMatrix[(int)State::Integer][i] = State::Integer;
 		stateMatrix[(int)State::Identifier][i] = State::Identifier;
 		stateMatrix[(int) State::stateCommentStart][i] = State::stateCommentStart;
+
+		stateMatrix[(int)State::statei][i] = State::Identifier;
+		stateMatrix[(int)State::stateI][i] = State::Identifier;
+		stateMatrix[(int)State::statew][i] = State::Identifier;
+		stateMatrix[(int)State::stateW][i] = State::Identifier;
+		stateMatrix[(int)State::statewh][i] = State::Identifier;
+		stateMatrix[(int)State::stateWH][i] = State::Identifier;
+		stateMatrix[(int)State::statewhi][i] = State::Identifier;
+		stateMatrix[(int)State::stateWHI][i] = State::Identifier;
+		stateMatrix[(int)State::statewhil][i] = State::Identifier;
+		stateMatrix[(int)State::stateWHIL][i] = State::Identifier;
 	}
 
 	//state for identifier a-z
@@ -134,7 +147,6 @@ Automat::Automat() {
 	stateMatrix[(int)State::stateWHI][76] = State::stateWHIL;
 	stateMatrix[(int)State::stateWHIL][69] = State::whileState;
 
-
 	//set all final states
 	finalStates[(int)State::Start] = false;
 	for (int i = (int) State::Undefined; i <= State::signBracketClose; i++) {
@@ -164,13 +176,17 @@ bool Automat::checkChar(char c) {
 	//Empty input or space
 	if (c == ' ' || c == '\t') {
 		column++;
-		currentState = State::Start;
+		if (!isComment()) {
+			currentState = State::Start;
+		}
 	//new Line
 	} else if (c == '\n') {
 		line ++;
+		prevColumn = column;
 		column = 1;
-		currentState = State::Start;
-
+		if (!isComment()) {
+			currentState = State::Start;
+		}
 	//actual chars as input
 	} else {
 		//save the start column of token or error
@@ -183,16 +199,16 @@ bool Automat::checkChar(char c) {
 		currentState = stateMatrix[currentState][(int)c];
 		column++;
 
+		if (currentState != State::Undefined) {
+			lookBackState = currentState;
+		}
+
 		//check if state is a final state
 		if (finalStates[(int)currentState]) {
 			finalState = true;
 			lastFinalState = currentState;
 		}
 
-		//Reset the Automat
-		if(currentState == State::Undefined) {
-			currentState = State::Start;
-		}
 	}
 
 
@@ -217,15 +233,49 @@ int Automat::getTokenColumn() {
  * Returns the Final state that was reached last
  */
 State::Type Automat::getLastFinalState(){
+
 	return lastFinalState;
 }
 
 /*
  * sets currentStat back to start and
  * reduces column by 1 to not mess with counting
+ *
+ * @return: recovers the state before it hit the currentState
  */
-void Automat::reset(int steps) {
+State::Type Automat::reset(int steps, int lines) {
 
 	currentState = State::Start;
+	if (lines > 0) {
+		line -= lines;
+		column = prevColumn;
+	}
 	column -= steps;
+
+	return lookBackState;
+
+}
+
+/*
+ * Checks if the scanner reads a comment
+ */
+bool Automat::isComment() {
+
+	return (currentState == State::stateCommentStart || currentState == State::stateCommentStar);
+}
+
+/*
+ * checks if 2 States belong to one Token or have to be separated
+ */
+bool Automat::isCompatible(State::Type type1, State::Type type2) {
+
+	if (type1 == State::signEquals && type2 == State::signECEquals) {
+		return true;
+	} else if (type1 == State::signColon && type2 == State::signCEquals) {
+		return true;
+	} else if (type1 == type2) {
+		return true;
+	}
+
+	return false;
 }

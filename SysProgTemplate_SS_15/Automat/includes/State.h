@@ -39,7 +39,6 @@ public:
 		signBracketOpen,
 		signBracketClose,
 
-		//nonFinalStates
 		statew,
 		statewh,
 		statewhi,
@@ -50,8 +49,9 @@ public:
 		stateWHIL,
 		statei,
 		stateI,
-		stateSingleAnd,
+
 		stateEColon,
+		stateSingleAnd,
 		stateCommentStart,
 		stateCommentStar,
 

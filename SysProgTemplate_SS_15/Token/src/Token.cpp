@@ -21,9 +21,9 @@ Token::Token (char* value, int line, int column, State::Type type, int size) {
 	this->column = column;
 	this->line = line;
 	this->contentInt = 0;
-	this->content = new char[size];
+	this->content = new char[size + 1];
 
-	if (type == State::Number) {
+	if (type == State::Integer) {
 		contentInt = strtol(value, NULL, 10);
 	} else {
 		int i = 0;
@@ -32,6 +32,7 @@ Token::Token (char* value, int line, int column, State::Type type, int size) {
 			i++;
 
 		}
+		content[size] = '\0';
 
 	}
 
