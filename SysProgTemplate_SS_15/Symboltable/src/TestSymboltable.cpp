@@ -6,5 +6,11 @@ int main(int argc, char **argv) {
 
 	symboltable = new Symboltable();
 
+	/**
+	 * make some insert functions
+	 * create some keys
+	 * stuff y'know
+	 */
+
 
 }

@@ -8,10 +8,42 @@
 #include "../includes/Symboltable.h"
 
 Symboltable::Symboltable() {
-	// TODO Auto-generated constructor stub
 
+	StringTab* hashTable = new StringTab[HASH_SIZE];
+
+	initSymbols();
 }
 
 Symboltable::~Symboltable() {
-	// TODO Auto-generated destructor stub
 }
+
+void Symboltable::initSymbols() {
+
+
+}
+
+Key* Symboltable::insert(char* lexem) {
+	/**
+	 * if lookup == 0
+	 * 	make new Key
+	 */
+	return 0;
+}
+
+char* Symboltable::lookup (char* key) {
+	/**
+	 * if key not found
+	 * return 0
+	 */
+
+	return '\0';
+}
+
+char* Symboltable::hash(char* lexem) {
+
+
+
+	return '\0';
+}
+
+
