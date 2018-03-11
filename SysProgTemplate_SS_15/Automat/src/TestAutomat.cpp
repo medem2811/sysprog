@@ -13,7 +13,7 @@ int main (int argc, char* argv[]){
 	for (int i = 0; i < sizeof(test); i++) {
 
 		cout << test[i] << ": " << automat->checkChar(test[i]);
-		cout << " l: " << automat->getLine() << " c: " << automat->getColumn();
+		cout << " l: " << automat->getTokenLine() << " c: " << automat->getTokenColumn();
 		cout << endl;
 	}
 

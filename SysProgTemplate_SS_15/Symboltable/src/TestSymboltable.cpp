@@ -1,4 +1,8 @@
 #include "../includes/Symboltable.h"
+#include <iostream>
+using namespace std;
+
+
 
 int main(int argc, char **argv) {
 
@@ -6,11 +10,5 @@ int main(int argc, char **argv) {
 
 	symboltable = new Symboltable();
 
-	/**
-	 * make some insert functions
-	 * create some keys
-	 * stuff y'know
-	 */
-
-
+	return 0;
 }

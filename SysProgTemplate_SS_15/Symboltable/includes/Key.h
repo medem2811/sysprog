@@ -10,6 +10,8 @@
 #ifndef SYMBOLTABLE_INCLUDES_KEY_H_
 #define SYMBOLTABLE_INCLUDES_KEY_H_
 
+#include "StringTab.h"
+
 class Key {
 public:
 

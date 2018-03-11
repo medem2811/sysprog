@@ -5,7 +5,6 @@
  *      Author: knad0001
  */
 #include "State.h"
-using namespace std;
 
 #ifndef Automat_H_
 #define Automat_H_

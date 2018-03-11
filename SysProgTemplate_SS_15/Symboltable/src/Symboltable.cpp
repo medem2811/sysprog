@@ -9,7 +9,9 @@
 
 Symboltable::Symboltable() {
 
-	StringTab* hashTable = new StringTab[HASH_SIZE];
+	hashSize = 1024;
+
+	StringTab* hashTable = new StringTab[hashSize];
 
 	initSymbols();
 }
@@ -19,14 +21,16 @@ Symboltable::~Symboltable() {
 
 void Symboltable::initSymbols() {
 
+	this->insert("while", 5, "while");
+	this->insert("WHILE", 5, "while");
+	this->insert("if", 2, "if");
+	this->insert("IF", 2, "if");
 
 }
 
-Key* Symboltable::insert(char* lexem) {
-	/**
-	 * if lookup == 0
-	 * 	make new Key
-	 */
+Key* Symboltable::insert(char* lexem, int size, char* type) {
+
+
 	return 0;
 }
 
@@ -39,11 +43,20 @@ char* Symboltable::lookup (char* key) {
 	return '\0';
 }
 
-char* Symboltable::hash(char* lexem) {
+int Symboltable::hash(char* lexem) {
 
+	int hash = 0;
 
+	while(*lexem) {
 
-	return '\0';
+		hash = (hash << 7) + (int)*lexem;
+
+		lexem++;
+	}
+
+	hash = hash % hashSize;
+
+	return hash;
 }
 
 

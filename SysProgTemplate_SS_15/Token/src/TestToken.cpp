@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	int column = 5;
 	State::Type type = State::Undefined;
 
-	token = new Token(value, line, column, type);
+	token = new Token(value, line, column, type, sizeof(value));
 
 	cout << "Token 1:" << endl;
 	cout << token->getValue() << endl;
@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	cout << token->getType() << endl;
 
 	Token* token2;
-	token2 = new Token ("1", 7, 45, State::Number);
+	token2 = new Token ("1", 7, 45, State::Integer, 1);
 
 	cout << "Token 2:" << endl;
 	cout << token2->getValue() << endl;

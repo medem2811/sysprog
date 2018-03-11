@@ -34,7 +34,7 @@ public:
 	 * save new information about said lexem
 	 * @return: Key
 	 */
-	Key* insert (char* lexem);
+	Key* insert (char* lexem, int size, char* type);
 
 	/**
 	 * returns the information bound to the key
@@ -46,11 +46,11 @@ private:
 
 	StringTab strTab;
 
-	int HASH_SIZE = 1024;
+	int hashSize;
 	/**
 	 * hashfunction to make a new key
 	 */
-	char* hash (char* lexem);
+	int hash (char* lexem);
 
 };
 
