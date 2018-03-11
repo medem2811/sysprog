@@ -12,6 +12,7 @@
 #ifndef SYMBOLTABLE_H_
 #define SYMBOLTABLE_H_
 
+#include "LinkedList.h"
 #include "StringTab.h"
 #include "Key.h"
 
@@ -40,17 +41,19 @@ public:
 	 * returns the information bound to the key
 	 * @return: lexem
 	 */
-	char* lookup (char* key);
+	Key* lookup (char* lexem);
 
 private:
 
-	StringTab strTab;
+	LinkedList* hashTable;
+	StringTab* strTab;
 
 	int hashSize;
 	/**
 	 * hashfunction to make a new key
 	 */
 	int hash (char* lexem);
+
 
 };
 

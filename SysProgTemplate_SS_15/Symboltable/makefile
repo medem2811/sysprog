@@ -18,7 +18,9 @@ BINDIRTEST = debug
 
 OBJS = $(OBJDIR)/Symboltable.o \
 	   $(OBJDIR)/Key.o \
-	   $(OBJDIR)/StringTab.o
+	   $(OBJDIR)/StringTab.o \
+	   $(OBJDIR)/LinkedList.o 
+	   
 	#$(OBJDIR)/xx1.o \
 	#$(OBJDIR)/xxn.o
 
@@ -65,6 +67,11 @@ makeTestStringTab: StringTabTarget TestStringTabTarget
 
 StringTabTarget: $(OBJS)
 
+makeTestLinkedList: LinkedListTarget TestLinkedListTarget
+	g++ -g $(OBJDIR)/*.o $(BINDIRTEST)/TestLinkedList.o  -o $(BINDIRTEST)/LinkedListTest
+
+LinkedListTarget: $(OBJS)
+
 # $@ name des object files = name auf der linken Seite vom Doppelpunkt des Targets
 # $< erste abhaengigkeit, $< das erste Element in der Liste der Abhaengigkeiten
 # $@ --> linke Seite vom Doppelpunkt
@@ -82,6 +89,9 @@ TestKeyTarget: $(SRCDIR)/TestKey.cpp $(HEADERDIR)/Key.h
 	
 TestStringTabTarget: $(SRCDIR)/TestStringTab.cpp $(HEADERDIR)/StringTab.h
 	g++ -g  -c -Wall $(SRCDIR)/TestStringTab.cpp -o $(BINDIRTEST)/TestStringTab.o  
+
+TestLinkedListTarget: $(SRCDIR)/TestLinkedList.cpp $(HEADERDIR)/LinkedList.h
+	g++ -g  -c -Wall $(SRCDIR)/TestLinkedList.cpp -o $(BINDIRTEST)/TestLinkedList.o  
   
 
 
@@ -93,6 +103,7 @@ cleanSymboltable:
 	$(MAKE) makeTestSymboltable
 	$(MAKE) makeTestKey
 	$(MAKE) makeTestStringTab
+	$(MAKE) makeTestLinkedList
 	
 	
 	
@@ -102,6 +113,7 @@ SymboltableOBJTarget:
 	$(MAKE) SymboltableTarget
 	$(MAKE) KeyTarget
 	$(MAKE) StringTabTarget
+	$(MAKE) LinkedListTarget
 	
 	
 

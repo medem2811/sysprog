@@ -14,7 +14,7 @@ StringTab::~StringTab() {
 
 }
 
-char* StringTab::insert(char* lexem) {
+char* StringTab::insert(char* lexem, int size) {
 
 	return 0;
 }

@@ -6,12 +6,15 @@
  */
 
 #include "../includes/Symboltable.h"
+#include <iostream>
+using namespace std;
 
 Symboltable::Symboltable() {
 
 	hashSize = 1024;
 
-	StringTab* hashTable = new StringTab[hashSize];
+	this->hashTable = new LinkedList[hashSize];
+	strTab = new StringTab();
 
 	initSymbols();
 }
@@ -21,26 +24,44 @@ Symboltable::~Symboltable() {
 
 void Symboltable::initSymbols() {
 
-	this->insert("while", 5, "while");
-	this->insert("WHILE", 5, "while");
-	this->insert("if", 2, "if");
-	this->insert("IF", 2, "if");
+	this->insert((char*)"while", 5,(char*) "while");
+	this->insert((char*)"WHILE", 5,(char*) "while");
+	this->insert((char*)"if", 2,(char*) "if");
+	this->insert((char*)"IF", 2,(char*) "if");
 
 }
 
 Key* Symboltable::insert(char* lexem, int size, char* type) {
 
+	Key* key = lookup(lexem);
 
-	return 0;
+	if (key == NULL) {
+
+		key = new Key(strTab->insert(lexem, size), type);
+
+		if (this->hashTable[hash(lexem)].isEmpty()) {
+			this->hashTable[hash(lexem)].initList(key);
+		} else {
+			this->hashTable[hash(lexem)].insert(key);
+		}
+	}
+
+
+	return key;
 }
 
-char* Symboltable::lookup (char* key) {
-	/**
-	 * if key not found
-	 * return 0
-	 */
+Key* Symboltable::lookup (char* lexem) {
 
-	return '\0';
+	Key* key;
+
+	if (!this->hashTable[hash(lexem)].isEmpty()) {
+
+		key = this->hashTable[hash(lexem)].contains(lexem);
+
+		return key;
+	}
+
+	return NULL;
 }
 
 int Symboltable::hash(char* lexem) {

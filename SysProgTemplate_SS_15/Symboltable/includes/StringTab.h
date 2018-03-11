@@ -14,7 +14,7 @@ public:
 	StringTab();
 	virtual ~StringTab();
 
-	char* insert(char* lexem);
+	char* insert(char* lexem, int size);
 
 	void resize();
 };
