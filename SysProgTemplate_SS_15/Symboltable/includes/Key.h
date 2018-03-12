@@ -35,7 +35,7 @@ public:
 	/**
 	 * checks if two keys are the same
 	 */
-	bool compareKeys(char* key);
+	bool compareLexem(char* key);
 
 private:
 	char* key;

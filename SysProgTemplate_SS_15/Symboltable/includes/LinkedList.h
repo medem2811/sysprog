@@ -15,8 +15,9 @@ public:
 	Node(Key* key);
 	virtual ~Node();
 
+	void setNext(Node* next);
 	Node* getNext();
-	Key* getInfo();
+	Key* getKey();
 
 private:
 	Node* next;
