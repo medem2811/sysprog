@@ -29,7 +29,6 @@ bool Key::compareLexem(char* lexem) {
 
 	char* p = this->key;
 	char* k = lexem;
-	bool same = true;
 
 
 	while (*p != '\0') {

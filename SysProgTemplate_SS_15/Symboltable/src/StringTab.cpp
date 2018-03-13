@@ -5,19 +5,22 @@
  *      Author: mella
  */
 #include "../includes/StringTab.h"
+#include <stdlib.h>
 
 StringTab::StringTab() {
 
-	this->size = 1024;
+	this->size = 16384;
+	//this->size = 200;
 	this->freeSpace = this->size;
-	this->table = (char*) malloc(this->freeSpace);
+	this->table = (char*) calloc(this->freeSpace, sizeof(char*));
 	this->freeP = table;
 
 }
 
 StringTab::~StringTab() {
 
-	free(table);
+	free(this->table);
+	delete[] freeP;
 }
 
 char* StringTab::insert(char* lexem, int size) {
@@ -27,15 +30,14 @@ char* StringTab::insert(char* lexem, int size) {
 	if (size < this->freeSpace) {
 
 		for (int i = 0; i < size; i++) {
-			this->freeP[i] = lexem[i];
+			freeP[i] = lexem[i];
 		}
-		this->freeP[size] = '\0';
 		this->freeP += size + 1;
 		this->freeSpace -= size + 1;
 
 
 	} else {
-		resize(1024);
+		resize(this->size);
 		return insert (lexem, size);
 	}
 
@@ -44,20 +46,16 @@ char* StringTab::insert(char* lexem, int size) {
 
 void StringTab::resize(int n) {
 
-	char* newTable = (char*)malloc(this->size + n);
-
-	for (int i = 0; i < this->size; i++) {
-		newTable[i] = this->table[i];
-	}
-
-	free(this->table);
-
-	this->freeP = newTable + this->size;
-
-	this->size += n;
 	this->freeSpace = n;
-	this->table = newTable;
+	//char* p = (char*)realloc(this->table, (this->size + n));
+	char* p = (char*) malloc(this->size);
+	this->table = p;
+	this->freeP = this->table;
 
+}
+
+char* StringTab::getTable() {
+	return this->table;
 }
 
 

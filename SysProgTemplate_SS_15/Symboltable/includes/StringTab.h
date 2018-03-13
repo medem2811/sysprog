@@ -16,6 +16,8 @@ public:
 
 	char* insert(char* lexem, int size);
 
+	char* getTable();
+
 private:
 
 	void resize(int n);
@@ -27,8 +29,6 @@ private:
 	char* table;
 
 	int size;
-
-
 
 };
 
