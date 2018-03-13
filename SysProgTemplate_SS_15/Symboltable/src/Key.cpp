@@ -17,6 +17,37 @@ Key::~Key() {
 	delete[] this;
 }
 
+char* Key::getPos() {
+	return this->key;
+}
+
+char* Key::getType() {
+	return this->type;
+}
+
+bool Key::compareLexem(char* lexem) {
+
+	char* p = this->key;
+	char* k = lexem;
+	bool same = true;
+
+
+	while (*p != '\0') {
+		if (*p != *k) {
+			return false;
+		}
+
+		p++;
+		k++;
+	}
+
+	if (*k != '\0') {
+		return false;
+	}
+
+	return true;
+}
+
 
 
 

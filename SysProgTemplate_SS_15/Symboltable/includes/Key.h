@@ -11,6 +11,8 @@
 #define SYMBOLTABLE_INCLUDES_KEY_H_
 
 #include "StringTab.h"
+#include <iostream>
+using namespace std;
 
 class Key {
 public:
@@ -35,7 +37,7 @@ public:
 	/**
 	 * checks if two keys are the same
 	 */
-	bool compareLexem(char* key);
+	bool compareLexem(char* lexem);
 
 private:
 	char* key;

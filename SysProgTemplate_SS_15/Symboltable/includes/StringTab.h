@@ -16,7 +16,20 @@ public:
 
 	char* insert(char* lexem, int size);
 
-	void resize();
+private:
+
+	void resize(int n);
+
+	char* freeP;
+
+	int freeSpace;
+
+	char* table;
+
+	int size;
+
+
+
 };
 
 
