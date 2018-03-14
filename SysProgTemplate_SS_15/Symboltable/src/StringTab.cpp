@@ -10,7 +10,7 @@
 StringTab::StringTab() {
 
 	this->size = 16384;
-	//this->size = 200;
+	//this->size = 50;
 	this->freeSpace = this->size;
 	this->table = (char*) calloc(this->freeSpace, sizeof(char*));
 	this->freeP = table;
@@ -47,8 +47,9 @@ char* StringTab::insert(char* lexem, int size) {
 void StringTab::resize(int n) {
 
 	this->freeSpace = n;
+
 	//char* p = (char*)realloc(this->table, (this->size + n));
-	char* p = (char*) malloc(this->size);
+	char* p = (char*) calloc(this->size, sizeof(char*));
 	this->table = p;
 	this->freeP = this->table;
 

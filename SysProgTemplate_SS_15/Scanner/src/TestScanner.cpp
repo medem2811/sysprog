@@ -1,5 +1,6 @@
 #include "../includes/Scanner.h"
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 int main(int argc, char **argv) {
@@ -20,6 +21,9 @@ int main(int argc, char **argv) {
 		} else {
 			cout << " value: " << t-> getValue();
 
+		}
+		if(t->getType() == State::Identifier) {
+			cout << " key: " << t->getKey()->getPos();
 		}
 		cout << endl;
 

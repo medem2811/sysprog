@@ -66,7 +66,7 @@ Key* Symboltable::lookup (char* lexem) {
 
 int Symboltable::hash(char* lexem) {
 
-	int hash = 0;
+	unsigned int hash = 0;
 
 	while(*lexem) {
 

@@ -5,7 +5,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 	Token* token;
-	char* value = "boobies";
+	char* value = (char*)"boobies";
 	int line = 1;
 	int column = 5;
 	State::Type type = State::Undefined;
@@ -19,10 +19,10 @@ int main(int argc, char* argv[]) {
 	cout << token->getType() << endl;
 
 	Token* token2;
-	token2 = new Token ("1", 7, 45, State::Integer, 1);
+	token2 = new Token ((char*)"1", 7, 45, State::Integer, 1);
 
 	cout << "Token 2:" << endl;
-	cout << token2->getValue() << endl;
+	cout << token2->getValueInt() << endl;
 	cout << token2->getLine() << endl;
 	cout << token2->getColumn() << endl;
 	cout << token2->getType() << endl;

@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../../Automat/includes/State.h"
+#include "../../Symboltable/includes/Key.h"
 
 
 class Token {
@@ -22,6 +23,8 @@ public:
 	int getValueInt();
 	int getLine();
 	int getColumn();
+	Key* getKey();
+	void setKey(Key* newKey);
 
 private:
 	State::Type type;
@@ -29,6 +32,8 @@ private:
 	long int contentInt;
 	int line;
 	int column;
+	Key* key;
+
 
 };
 

@@ -11,6 +11,7 @@
 #include "../../Automat/includes/Automat.h"
 #include "../../Buffer/includes/Buffer.h"
 #include "../../Token/includes/Token.h"
+#include "../../Symboltable/includes/Symboltable.h"
 
 class Scanner {
 public:
@@ -23,6 +24,7 @@ public:
 private:
 	Automat* automat;
 	Buffer* buffer;
+	Symboltable* table;
 
 	int Buffer_Size;
 

@@ -22,6 +22,7 @@ Scanner::Scanner(char* filename) {
 
 	automat = new Automat();
 	buffer = new Buffer(filename, Buffer_Size);
+	table = new Symboltable();
 
 	//to save Chars actually belonging to the Token
 	value = new char [Buffer_Size];
@@ -221,11 +222,16 @@ bool Scanner::eof() {
 
 /**
  * creates a Token and fills it with values
- * also calculates Key and stuff TODO
+ * also calculates Key and stuff
  */
 Token* Scanner::createToken(char* value, int line, int column, State::Type type, int size) {
 
 	Token* token = new Token(value, line, column, type, size);
+
+	if (type == State::Identifier) {
+		token->setKey(table->insert(value, size, (char*)"Identifier"));
+	}
+
 
 	return token;
 }
