@@ -11,8 +11,6 @@
 #define SYMBOLTABLE_INCLUDES_KEY_H_
 
 #include "StringTab.h"
-#include <iostream>
-using namespace std;
 
 class Key {
 public:
