@@ -1,0 +1,24 @@
+Token Integer		Line: 1 	Column: 1 	Value: 123456789
+Token Identifier	Line: 1 	Column: 10 	Lexem: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+Token + 		Line: 1 	Column: 62 	
+Token - 		Line: 1 	Column: 63 	
+Token * 		Line: 1 	Column: 64 	
+Token ; 		Line: 1 	Column: 67 	
+Token ( 		Line: 1 	Column: 68 	
+Token ) 		Line: 1 	Column: 69 	
+Token := 		Line: 1 	Column: 70 	
+Token Integer		Line: 1 	Column: 72 	Value: 1234
+Token Integer		Line: 1 	Column: 77 	Value: 12
+Token Identifier	Line: 1 	Column: 79 	Lexem: E122diesistein
+Token ( 		Line: 1 	Column: 93 	
+Token * 		Line: 1 	Column: 94 	
+Token Integer		Line: 1 	Column: 95 	Value: 111
+Token Identifier	Line: 1 	Column: 98 	Lexem: aaaa
+Token + 		Line: 1 	Column: 102 	
+Token - 		Line: 1 	Column: 103 	
+Token Integer		Line: 1 	Column: 104 	Value: 1234
+Token Integer		Line: 1 	Column: 109 	Value: 0
+Token Identifier	Line: 1 	Column: 110 	Lexem: durch
+Token * 		Line: 1 	Column: 115 	
+Token ) 		Line: 1 	Column: 116 	
+Token Identifier	Line: 1 	Column: 117 	Lexem: durch

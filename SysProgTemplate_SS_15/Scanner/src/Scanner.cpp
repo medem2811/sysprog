@@ -67,6 +67,10 @@ Token* Scanner::nextToken() {
 
 		c = buffer->getChar();
 
+		if ((c <= 32) && (c != ' ') && (c != '\t') && (c != '\n')) {
+			c = '\0';
+		}
+
 		if (eof()) {
 			tokenType = automat->getLastFinalState();
 			isToken = true;
@@ -99,7 +103,7 @@ Token* Scanner::nextToken() {
 					tokenType = automat->getLastFinalState();
 					isToken = true;
 				}
-			} else {
+			} else if (c != '\0'){
 				//automat calculates the new active state
 				//and returns whether the new state is a final state
 				bool finalState = automat->checkChar(c);
@@ -155,8 +159,10 @@ Token* Scanner::nextToken() {
 						//save error as value and state as error
 						eColon = false;
 						*p = c;
-						p++;
-						size++;
+						if (value[0] != '\0') {
+							p++;
+							size++;
+						}
 						tokenType = lastFinalState;
 						automat->reset(0, 0);
 					}
@@ -198,8 +204,11 @@ Token* Scanner::nextToken() {
 		tokenType = State::Identifier;
 	}
 
-	token = createToken(value, automat->getTokenLine(), automat->getTokenColumn(), tokenType, size);
-
+	if (value[0] != '\0') {
+		token = createToken(value, automat->getTokenLine(), automat->getTokenColumn(), tokenType, size);
+	} else {
+		token = NULL;
+	}
 	//after creating Token, empty the value so that it won't be created twice
 	//in case of multiple whitespaces or multiple Errors
 	for (int i = 0; i < size; i++) {

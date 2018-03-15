@@ -27,6 +27,11 @@ Automat::Automat() {
 		}
 	}
 
+	//for any unnecessary input
+	for (int i = 0; i < (int) State::StateCount; i++) {
+		stateMatrix[i][0] = State::Start;
+	}
+
 	//to ignore all comments
 	for (int j = 0; j < 128; j++) {
 		stateMatrix[(int) State::stateCommentStart][j] = State::stateCommentStart;

@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
 	while (!s->eof()){
 		t = s->nextToken();
-
+		if (t != NULL) {
 		if(t->getType() == State::Error) {
 
 			cerr << "Error\t Line: " << t->getLine() << " \t";
@@ -32,45 +32,45 @@ int main(int argc, char **argv) {
 											break;
 			case (int)State::Integer :		out << "Integer\t\t";
 											break;
-			case (int)State::ifState :		out << "If\t\t\t";
+			case (int)State::ifState :		out << "If\t\t";
 											break;
-			case (int)State::whileState :	out << "While\t\t\t";
+			case (int)State::whileState :	out << "While\t\t";
 											break;
-			case (int)State::signPlus :		out << "+ \t\t\t";
+			case (int)State::signPlus :		out << "+ \t\t";
 											break;
-			case (int)State::signMinus : 	out << "- \t\t\t";
+			case (int)State::signMinus : 	out << "- \t\t";
 											break;
-			case (int)State::signColon : 	out << ": \t\t\t";
+			case (int)State::signColon : 	out << ": \t\t";
 											break;
-			case (int)State::signStar : 		out << "* \t\t\t";
+			case (int)State::signStar : 		out << "* \t\t";
 											break;
-			case (int)State::signSmaller : 	out << "< \t\t\t";
+			case (int)State::signSmaller : 	out << "< \t\t";
 											break;
-			case (int)State::signBigger : 	out << "> \t\t\t";
+			case (int)State::signBigger : 	out << "> \t\t";
 											break;
-			case (int)State::signEquals : 	out << "= \t\t\t";
+			case (int)State::signEquals : 	out << "= \t\t";
 											break;
-			case (int)State::signCEquals : 	out << ":= \t\t\t";
+			case (int)State::signCEquals : 	out << ":= \t\t";
 											break;
-			case (int)State::signECEquals : 	out << "=:= \t\t\t";
+			case (int)State::signECEquals : 	out << "=:= \t\t";
 											break;
-			case (int)State::signExclamation : out << "! \t\t\t";
+			case (int)State::signExclamation : out << "! \t\t";
 											break;
-			case (int)State::signDoubleAnd : out << "&& \t\t\t";
+			case (int)State::signDoubleAnd : out << "&& \t\t";
 											break;
-			case (int)State::signSemiColon : out << "; \t\t\t";
+			case (int)State::signSemiColon : out << "; \t\t";
 											break;
-			case (int)State::signBracketOpen : out << "[ \t\t\t";
+			case (int)State::signBracketOpen : out << "[ \t\t";
 											break;
-			case (int)State::signBracketClose : out << "] \t\t\t";
+			case (int)State::signBracketClose : out << "] \t\t";
 											break;
-			case (int)State::signCurlyBracketOpen : out << "{ \t\t\t";
+			case (int)State::signCurlyBracketOpen : out << "{ \t\t";
 											break;
-			case (int)State::signCurlyBracketClose: out << "} \t\t\t";
+			case (int)State::signCurlyBracketClose: out << "} \t\t";
 											break;
-			case (int)State::signRoundBracketOpen : out << "( \t\t\t";
+			case (int)State::signRoundBracketOpen : out << "( \t\t";
 											break;
-			case (int)State::signRoundBracketClose : out << ") \t\t\t";
+			case (int)State::signRoundBracketClose : out << ") \t\t";
 											break;
 			}
 			out << "Line: " << t-> getLine() << " \t";
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 
 			}
 			out << endl;
-
+		}
 	}
 
 	}
