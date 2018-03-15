@@ -1,6 +1,7 @@
 #include "../includes/Scanner.h"
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 using namespace std;
 
 int main(int argc, char **argv) {
@@ -17,65 +18,74 @@ int main(int argc, char **argv) {
 	while (!s->eof()){
 		t = s->nextToken();
 
-		out << "Token ";
-		switch((int)t-> getType()) {
-		case (int)State::Identifier : 	out << "Identifier\t";
-										break;
-		case (int)State::Integer :		out << "Integer\t\t";
-										break;
-		case (int)State::ifState :		out << "If\t\t\t";
-										break;
-		case (int)State::whileState :	out << "While\t\t\t";
-										break;
-		case (int)State::signPlus :		out << "+ \t\t\t";
-										break;
-		case (int)State::signMinus : 	out << "- \t\t\t";
-										break;
-		case (int)State::signColon : 	out << ": \t\t\t";
-										break;
-		case (int)State::signStar : 		out << "* \t\t\t";
-										break;
-		case (int)State::signSmaller : 	out << "< \t\t\t";
-										break;
-		case (int)State::signBigger : 	out << "> \t\t\t";
-										break;
-		case (int)State::signEquals : 	out << "= \t\t\t";
-										break;
-		case (int)State::signCEquals : 	out << ":= \t\t\t";
-										break;
-		case (int)State::signECEquals : 	out << "=:= \t\t\t";
-										break;
-		case (int)State::signExclamation : out << "! \t\t\t";
-										break;
-		case (int)State::signDoubleAnd : out << "&& \t\t\t";
-										break;
-		case (int)State::signSemiColon : out << "; \t\t\t";
-										break;
-		case (int)State::signBracketOpen : out << "[ \t\t\t";
-										break;
-		case (int)State::signBracketClose : out << "] \t\t\t";
-										break;
-		case (int)State::signCurlyBracketOpen : out << "{ \t\t\t";
-										break;
-		case (int)State::signCurlyBracketClose: out << "} \t\t\t";
-										break;
-		case (int)State::signRoundBracketOpen : out << "( \t\t\t";
-										break;
-		case (int)State::signRoundBracketClose : out << ") \t\t\t";
-										break;
-		}
-		out << "Line: " << t-> getLine() << " \t";
-		out << "Column: " << t-> getColumn() << " \t";
-		if(t->getType() == State::Integer) {
-			out << "Value: " << t-> getValueInt();
-		} else if (t->getType() == State::Identifier) {
-			out << "Lexem: " << t-> getValue();
+		if(t->getType() == State::Error) {
 
-		}
-		out << endl;
+			cerr << "Error\t Line: " << t->getLine() << " \t";
+			cerr << "Column: " << t->getColumn() << " \t";
+			cerr << "Value: " << t->getValue() << endl;
+		} else {
+
+
+			out << "Token ";
+			switch((int)t-> getType()) {
+			case (int)State::Identifier : 	out << "Identifier\t";
+											break;
+			case (int)State::Integer :		out << "Integer\t\t";
+											break;
+			case (int)State::ifState :		out << "If\t\t\t";
+											break;
+			case (int)State::whileState :	out << "While\t\t\t";
+											break;
+			case (int)State::signPlus :		out << "+ \t\t\t";
+											break;
+			case (int)State::signMinus : 	out << "- \t\t\t";
+											break;
+			case (int)State::signColon : 	out << ": \t\t\t";
+											break;
+			case (int)State::signStar : 		out << "* \t\t\t";
+											break;
+			case (int)State::signSmaller : 	out << "< \t\t\t";
+											break;
+			case (int)State::signBigger : 	out << "> \t\t\t";
+											break;
+			case (int)State::signEquals : 	out << "= \t\t\t";
+											break;
+			case (int)State::signCEquals : 	out << ":= \t\t\t";
+											break;
+			case (int)State::signECEquals : 	out << "=:= \t\t\t";
+											break;
+			case (int)State::signExclamation : out << "! \t\t\t";
+											break;
+			case (int)State::signDoubleAnd : out << "&& \t\t\t";
+											break;
+			case (int)State::signSemiColon : out << "; \t\t\t";
+											break;
+			case (int)State::signBracketOpen : out << "[ \t\t\t";
+											break;
+			case (int)State::signBracketClose : out << "] \t\t\t";
+											break;
+			case (int)State::signCurlyBracketOpen : out << "{ \t\t\t";
+											break;
+			case (int)State::signCurlyBracketClose: out << "} \t\t\t";
+											break;
+			case (int)State::signRoundBracketOpen : out << "( \t\t\t";
+											break;
+			case (int)State::signRoundBracketClose : out << ") \t\t\t";
+											break;
+			}
+			out << "Line: " << t-> getLine() << " \t";
+			out << "Column: " << t-> getColumn() << " \t";
+			if(t->getType() == State::Integer) {
+				out << "Value: " << t-> getValueInt();
+			} else if (t->getType() == State::Identifier) {
+				out << "Lexem: " << t-> getValue();
+
+			}
+			out << endl;
 
 	}
 
+	}
 	out.close();
 
 

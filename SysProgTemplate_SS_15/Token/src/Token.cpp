@@ -26,21 +26,22 @@ Token::Token (char* value, int line, int column, State::Type type, int size) {
 
 	if (type == State::Integer) {
 		contentInt = strtol(value, NULL, 10);
-	} else {
-		int i = 0;
-		while (value[i] != '\0') {
-			content [i] = value[i];
-			i++;
-
+		if (errno == ERANGE) {
+			this->type = State::Error;
 		}
-		content[size] = '\0';
-
+	}
+	int i = 0;
+	while (value[i] != '\0') {
+	content [i] = value[i];
+	i++;
 	}
 
-	if(contentInt == -1 || type == State::Undefined || type == State::Start) {
+	content[size] = '\0';
+
+
+	if(type == State::Undefined || type == State::Start) {
 		this->type = State::Error;
 
-		//ERROR PRINT OUT
 	}
 
 }
@@ -53,24 +54,24 @@ Token::~Token() {
  */
 
 State::Type Token::getType() {
-	return type;
+	return this->type;
 }
 
 char* Token::getValue(){
-	return content;
+	return this->content;
 }
 int Token::getValueInt(){
-	return contentInt;
+	return this->contentInt;
 }
 int Token::getLine() {
-	return line;
+	return this->line;
 }
 int Token::getColumn() {
-	return column;
+	return this->column;
 }
 
 Key* Token::getKey() {
-	return key;
+	return this->key;
 }
 
 void Token::setKey(Key* newKey) {

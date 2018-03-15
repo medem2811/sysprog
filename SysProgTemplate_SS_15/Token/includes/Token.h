@@ -8,6 +8,7 @@
 #ifndef TOKEN_H_
 #define TOKEN_H_
 #include <stdlib.h>
+#include <cerrno>
 #include <stdio.h>
 #include "../../Automat/includes/State.h"
 #include "../../Symboltable/includes/Key.h"

@@ -202,7 +202,7 @@ Token* Scanner::nextToken() {
 
 	//after creating Token, empty the value so that it won't be created twice
 	//in case of multiple whitespaces or multiple Errors
-	for (int i = 0; i < Buffer_Size; i++) {
+	for (int i = 0; i < size; i++) {
 		value[i] = '\0';
 	}
 

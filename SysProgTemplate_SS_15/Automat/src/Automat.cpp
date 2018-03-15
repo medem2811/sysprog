@@ -203,6 +203,10 @@ bool Automat::checkChar(char c) {
 			lookBackState = currentState;
 		}
 
+		if (c == '&') {
+			lastFinalState = State::Undefined;
+		}
+
 		//check if state is a final state
 		if (finalStates[(int)currentState]) {
 			finalState = true;

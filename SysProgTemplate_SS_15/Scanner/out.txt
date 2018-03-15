@@ -31,7 +31,6 @@ Token =:= 			Line: 14 	Column: 6
 Token Identifier	Line: 14 	Column: 9 	Lexem: KoWJF
 Token Integer		Line: 15 	Column: 1 	Value: 123
 Token ! 			Line: 15 	Column: 4 	
-Token ! 			Line: 16 	Column: 1 	
 Token && 			Line: 16 	Column: 3 	
 Token Identifier	Line: 17 	Column: 1 	Lexem: Semi
 Token ; 			Line: 17 	Column: 5 	
@@ -45,16 +44,10 @@ Token } 			Line: 19 	Column: 14
 Token [ 			Line: 20 	Column: 1 	
 Token Identifier	Line: 20 	Column: 2 	Lexem: BRACKET
 Token ] 			Line: 20 	Column: 9 	
-Token Integer		Line: 21 	Column: 1 	Value: -1
 Token Identifier	Line: 21 	Column: 42 	Lexem: big
 Token Identifier	Line: 21 	Column: 46 	Lexem: numbs
 Token Identifier	Line: 22 	Column: 1 	Lexem: SOME
 Token Identifier	Line: 22 	Column: 6 	Lexem: ERRORS
-Token Line: 22 	Column: 13 	
-Token Line: 22 	Column: 14 	
-Token Line: 22 	Column: 15 	
-Token Line: 22 	Column: 16 	
-Token Line: 22 	Column: 17 	
 Token Identifier	Line: 22 	Column: 18 	Lexem: khfdlol
 Token If			Line: 23 	Column: 1 	
 Token While			Line: 23 	Column: 3 	
