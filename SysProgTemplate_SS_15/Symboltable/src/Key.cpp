@@ -25,6 +25,10 @@ char* Key::getType() {
 	return this->type;
 }
 
+/*
+ * Compares two Lexems with each other to see
+ * if there already exists a key for this lexem
+ */
 bool Key::compareLexem(char* lexem) {
 
 	char* p = this->key;

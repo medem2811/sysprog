@@ -13,7 +13,6 @@ using namespace std;
  * Constructor: Creates a new Automat and a Buffer for the run
  *
  *
- *
  * @param filename is the name of the testfile
  */
 Scanner::Scanner(char* filename) {
@@ -43,6 +42,10 @@ Scanner::~Scanner() {
 	delete automat;
 }
 
+/**
+ * reads the next Token out of the Chars given by the
+ * buffer
+ */
 Token* Scanner::nextToken() {
 
 	//saves the next Char from the buffer

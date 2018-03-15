@@ -37,8 +37,8 @@ Token::Token (char* value, int line, int column, State::Type type, int size) {
 
 	}
 
-	if(contentInt == -1) {
-		type = State::Undefined;
+	if(contentInt == -1 || type == State::Undefined || type == State::Start) {
+		this->type = State::Error;
 
 		//ERROR PRINT OUT
 	}

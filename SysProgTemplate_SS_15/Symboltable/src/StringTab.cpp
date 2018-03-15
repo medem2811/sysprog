@@ -29,9 +29,11 @@ char* StringTab::insert(char* lexem, int size) {
 
 	if (size < this->freeSpace) {
 
+		//inserts the lexem into the table
 		for (int i = 0; i < size; i++) {
 			freeP[i] = lexem[i];
 		}
+		//sets a NULL value after each lexem
 		this->freeP += size + 1;
 		this->freeSpace -= size + 1;
 
@@ -47,6 +49,8 @@ char* StringTab::insert(char* lexem, int size) {
 void StringTab::resize(int n) {
 
 	this->freeSpace = n;
+
+	//makes more space for new Lexems
 
 	//char* p = (char*)realloc(this->table, (this->size + n));
 	char* p = (char*) calloc(this->size, sizeof(char*));

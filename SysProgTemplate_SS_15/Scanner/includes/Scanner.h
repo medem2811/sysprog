@@ -18,7 +18,14 @@ public:
 	Scanner(char* filename);
 	virtual ~Scanner();
 
+	/**
+	 * Reads a Token and returns it
+	 */
 	Token* nextToken();
+	/*
+	 * Checks if the end of the file
+	 * was reached yet
+	 */
 	bool eof();
 
 private:

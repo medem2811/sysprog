@@ -15,8 +15,17 @@ public:
 	Node(Key* key);
 	virtual ~Node();
 
+	/*
+	 * Links the nodes together
+	 */
 	void setNext(Node* next);
+	/*
+	 * Returns the next node
+	 */
 	Node* getNext();
+	/*
+	 * Returns the key stored in the Node
+	 */
 	Key* getKey();
 
 private:
@@ -30,12 +39,26 @@ public:
 	LinkedList();
 	virtual ~LinkedList();
 
+	/*
+	 * Initializes the list and fills the head node
+	 */
 	void initList(Key* key);
 
+	/*
+	 * Inserts a new node into the list
+	 * with key stored in it
+	 */
 	void insert(Key* key);
 
+	/*
+	 * Checks whether a key is stored in
+	 * this list and returns it if yes
+	 */
 	Key* contains(char* value);
 
+	/*
+	 * Checks whether the list is empty or not
+	 */
 	bool isEmpty();
 
 private:

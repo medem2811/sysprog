@@ -14,8 +14,14 @@ public:
 	StringTab();
 	virtual ~StringTab();
 
+	/*
+	 * Stores a lexem in the String Tab
+	 */
 	char* insert(char* lexem, int size);
 
+	/*
+	 * Returns pointer to the table
+	 */
 	char* getTable();
 
 private:

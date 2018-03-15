@@ -13,8 +13,20 @@ public:
 	Buffer(char* file, int size);
 	virtual ~Buffer();
 
+	/**
+	 * Reads a char from the file
+	 * and returns it
+	 */
 	char getChar();
+	/*
+	 * Goes a step back and lets
+	 * the buffer read the char again
+	 */
 	void ungetChar();
+	/*
+	 * Checks if the end of the file
+	 * was reached yet
+	 */
 	bool eof();
 
 private:

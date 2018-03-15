@@ -50,6 +50,8 @@ void LinkedList::insert(Key* key) {
 
 	Node* active = this->head;
 
+	//runs through List until the end to insert
+	//a new node
 	while (active) {
 		if (active->getNext() == NULL) {
 			active->setNext(node);
@@ -68,6 +70,7 @@ Key* LinkedList::contains(char* value) {
 
 		Key* comp = active->getKey();
 
+		//runs through list comparing lexems and keys
 		if (comp->compareLexem(value)) {
 			return comp;
 		}
