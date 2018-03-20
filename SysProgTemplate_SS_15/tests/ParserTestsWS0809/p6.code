@@ -1,0 +1,121 @@
+DS x
+DS y
+LC 3
+LC 5
+ADI
+LC 3
+LC 4
+ADI
+SBI
+LC 4
+LC 2
+LC 3
+MLI
+LC 0 
+LC 5
+SBI 
+ADI
+DVI
+MLI
+LA x
+STR 
+LC 1
+LC 1
+ADI
+LA x
+LV
+LC 2
+LC 1
+LC 1
+LC 1
+ADI
+MLI
+SBI
+ADI
+MLI
+LA x
+STR 
+LC 0
+PRI 
+LA x
+LV
+PRI 
+LC 8
+PRI 
+LC 0
+PRI 
+LC 1
+LA x
+STR 
+LA x
+LV
+LC 1
+ADI
+LA x
+STR 
+LA x
+LV
+LA x
+LV
+LC 1
+ADI
+ADI
+LA x
+STR 
+LC 1
+PRI 
+LA x
+LV
+PRI 
+LC 5
+PRI 
+LC 1
+PRI 
+LC 1.10000
+LA y
+STR 
+LA y
+LV
+LC 1.10000
+ADF
+LA y
+STR 
+LA y
+LV
+LA y
+LV
+LC 1.10000
+ADF
+ADF
+LA y
+STR 
+LC 2
+PRI 
+LA y
+LV
+PRF 
+LC 5.50000
+PRF 
+LC 1
+PRI 
+LA y
+LV
+LA x
+LV
+FLT 
+ADF
+LA y
+STR 
+LC 3
+PRI 
+LA y
+LV
+PRF 
+LC 10.5000
+PRF 
+LC 3
+PRI 
+LC 3
+PRI 
+NOP 
+STP 

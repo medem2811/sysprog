@@ -68,7 +68,7 @@ Token* Scanner::nextToken() {
 		c = buffer->getChar();
 
 		if ((c <= 32) && (c != ' ') && (c != '\t') && (c != '\n')) {
-			c = '\0';
+			c = ' ';
 		}
 
 		if (eof()) {

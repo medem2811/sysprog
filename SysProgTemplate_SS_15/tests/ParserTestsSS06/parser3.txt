@@ -1,0 +1,7 @@
+x := sum(1,2,3,4,5,4,3,2,1);
+print( x );
+print(5);
+y := 1;
+z := prod(x,(x+x),(x+x+x),y,(y*y),(y*y*y), x-x,x-x-x,y/y,y/y/y);
+print(z);
+print(15)

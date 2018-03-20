@@ -9,7 +9,7 @@
 
 StringTab::StringTab() {
 
-	this->size = 16384;
+	this->size = 65536;
 	//this->size = 50;
 	this->freeSpace = this->size;
 	this->table = (char*) calloc(this->freeSpace, sizeof(char*));

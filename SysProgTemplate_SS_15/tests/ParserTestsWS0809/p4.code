@@ -1,0 +1,180 @@
+DS a
+DS b
+DS t
+DS x
+DS tempa
+DS pi
+DS sqrt
+DS i
+LC 1
+FLT 
+LA a
+STR 
+LC 20
+LA i
+STR 
+LC 0.500000
+LC 2
+FLT 
+DVF
+LA sqrt
+STR 
+*W0 LC 0
+LA i
+LV
+LSI
+JIN *W1
+LA sqrt
+LV
+LC 0.500000
+LA sqrt
+LV
+DVF
+ADF
+LC 2
+FLT 
+DVF
+LA sqrt
+STR 
+LA i
+LV
+LC 1
+SBI
+LA i
+STR 
+NOP 
+JMP *W0
+*W1 NOP
+LA sqrt
+LV
+LA b
+STR 
+LC 0.250000
+LA t
+STR 
+LC 1
+FLT 
+LA x
+STR 
+*W2 LC 0.000100000
+LA a
+LV
+LA b
+LV
+SBF
+LSI
+JIN *W3
+LA a
+LV
+LA tempa
+STR 
+LA a
+LV
+LA b
+LV
+ADF
+LC 2
+FLT 
+DVF
+LA a
+STR 
+LC 20
+LA i
+STR 
+LA tempa
+LV
+LA b
+LV
+MLF
+LC 2
+FLT 
+DVF
+LA sqrt
+STR 
+*W4 LC 0
+LA i
+LV
+LSI
+JIN *W5
+LA sqrt
+LV
+LA tempa
+LV
+LA b
+LV
+MLF
+LA sqrt
+LV
+DVF
+ADF
+LC 2
+FLT 
+DVF
+LA sqrt
+STR 
+LA i
+LV
+LC 1
+SBI
+LA i
+STR 
+NOP 
+JMP *W4
+*W5 NOP
+LA sqrt
+LV
+LA b
+STR 
+LA t
+LV
+LA x
+LV
+LA a
+LV
+LA tempa
+LV
+SBF
+LA a
+LV
+LA tempa
+LV
+SBF
+MLF
+MLF
+SBF
+LA t
+STR 
+LC 2
+FLT 
+LA x
+LV
+MLF
+LA x
+STR 
+NOP 
+JMP *W2
+*W3 NOP
+LA a
+LV
+LA b
+LV
+ADF
+LA a
+LV
+LA b
+LV
+ADF
+MLF
+LC 4
+FLT 
+LA t
+LV
+MLF
+DVF
+LA pi
+STR 
+LA pi
+LV
+PRF 
+NOP 
+STP 

@@ -1,0 +1,16 @@
+x := 1;
+x := x +1;
+x := x + x + 1;
+print (x);
+print (5);
+y := 1.1;
+y := y + 1.1;
+y := y + y + 1.1;
+print (y);
+print (5.5);
+y := y + x;
+print (y);
+print (10.5);
+x := x + y;
+print(x);
+print(15.5)

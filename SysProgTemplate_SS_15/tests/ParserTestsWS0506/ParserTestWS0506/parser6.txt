@@ -1,0 +1,11 @@
+y := 7 div 3;
+z := 7 mod 3;
+print(y); print(z);
+print(2); print(1);
+y := (7 + max(3,4,5,6-4, 7 - min(13,98765*4,31/2),0.1)) div 3;
+print(y);
+print(4);
+y := (7 + max(3,4,5,6-4, 7 - min(13,98765*4,31/2),0.1)) mod 3;
+print(y);
+print(1)
+

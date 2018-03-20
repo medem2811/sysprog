@@ -25,6 +25,7 @@ Token::Token (char* value, int line, int column, State::Type type, int size) {
 	this->key = NULL;
 
 	if (type == State::Integer) {
+		errno = 0;
 		contentInt = strtol(value, NULL, 10);
 		if (errno == ERANGE) {
 			this->type = State::Error;

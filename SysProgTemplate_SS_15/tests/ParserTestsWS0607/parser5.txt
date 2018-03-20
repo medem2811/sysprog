@@ -1,0 +1,10 @@
+y := prod(5,4,3,2,1,2,3,4,5);
+print( y );
+print(14400);
+y := 1;
+x := 5;
+u := prod(x,(x+x),(x+x+x),y,(y*y),(y*y*y),(x-x)-x,y/y,y/y/y);
+print(u);
+print(-3750);
+print(0)
+

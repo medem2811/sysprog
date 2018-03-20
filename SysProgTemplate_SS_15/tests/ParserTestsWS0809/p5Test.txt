@@ -1,0 +1,90 @@
+int i;
+int i1;
+
+float f;
+float f1;
+
+i = 3;
+print(i);
+
+f = 4.5;
+print(f);
+
+print(1111);
+read(i);
+print(i);
+
+print(222.22);
+read(f);
+print(f);
+
+
+{i = 33; f= 44.44;};
+
+if (0) { i = 5; print(i);}
+else {f = 5.5; print (f);};
+print(5.5);
+ 
+if (1) { i = 5; print(i);}
+else {f = 5.5; print (f);};
+print(5);
+
+i = 6;
+i = i -1;
+print (i);
+print (5);
+
+while (i){ print(i); i = i -1;};
+
+print(3333);
+i = (3333);
+print (i);
+
+print(4444);
+i1= 4444;
+i = i1;
+print (i);
+i = -i1;
+print(-4444);
+print (i);
+i = !i1;
+print (i);
+
+print(-4444.4444);
+f1 = 4444.4444;
+f = -f1;
+print (f);
+
+i = 11;
+f = float i;
+print( f);
+print(11.0);
+
+print (3 +4);
+print(7);
+print ( 3-4);
+print(-1);
+print (3 * 4);
+print(12);
+print (44 / 4);
+print(11);
+print ( 3 < 4);
+print(1);
+print (4 < 3);
+print(0);
+print ( 3 = 4);
+print(0);
+print ( 3 = 3);
+print ( 3 & 4);
+print ( 0 & 4);
+
+print (3.5 +4.66);
+print ( 3.5-4.6);
+print (3.5 * 4.6);
+print (44.4 / 4.0);
+print ( 3.3 < 4.4);
+print (4.4 < 3.3);
+print ( 3.3 = 4.3);
+print ( 3.3 = 3.3);
+
+

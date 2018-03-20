@@ -1,0 +1,548 @@
+DS a
+DS n
+DS w
+DS m
+DS y
+DS i
+DS x
+DS tmp
+RDI 
+LA n
+STR 
+LA n
+LV
+LA a
+STR 
+LA a
+LV
+LA w
+STR 
+LA w
+LV
+LA n
+LV
+LA w
+LV
+DVI
+ADI
+LC 2
+DVI
+LA a
+STR 
+*W0 LA a
+LV
+LA w
+LV
+LSI
+JIN *W1
+LA a
+LV
+LA w
+STR 
+LA w
+LV
+LA n
+LV
+LA w
+LV
+DVI
+ADI
+LC 2
+DVI
+LA a
+STR 
+NOP 
+JMP *W0
+*W1 NOP
+LA w
+LV
+PRI 
+RDF 
+LA m
+STR 
+LA m
+LV
+LC 2
+FLT 
+DVF
+LA y
+STR 
+LC 20
+LA i
+STR 
+*W2 LC 0
+LA i
+LV
+LSI
+JIN *W3
+LA y
+LV
+LA m
+LV
+LA y
+LV
+DVF
+ADF
+LC 2
+FLT 
+DVF
+LA y
+STR 
+LA i
+LV
+LC 1
+SBI
+LA i
+STR 
+NOP 
+JMP *W2
+*W3 NOP
+LA y
+LV
+PRF 
+LA y
+LV
+LA y
+LV
+MLF
+PRF 
+RDI 
+LA n
+STR 
+RDI 
+LA a
+STR 
+LC 1
+LA x
+STR 
+LC 0
+LA tmp
+STR 
+*W4 LA tmp
+LV
+LA x
+LV
+LSI
+JIN *W5
+LA a
+LV
+LA tmp
+STR 
+LC 1
+LA i
+STR 
+*W6 LA i
+LV
+LA n
+LV
+LSI
+JIN *W7
+LA tmp
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+NOP 
+JMP *W6
+*W7 NOP
+LA n
+LV
+LC 1
+SBI
+LA x
+LV
+MLI
+LA tmp
+LV
+ADI
+LA n
+LV
+DVI
+LA x
+STR 
+LC 2
+LA i
+STR 
+LA a
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+*W8 LA i
+LV
+LA n
+LV
+LSI
+LA x
+LV
+LA tmp
+LV
+LSI
+AND
+JIN *W9
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+LA tmp
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+NOP 
+JMP *W8
+*W9 NOP
+NOP 
+JMP *W4
+*W5 NOP
+LA x
+LV
+PRI 
+LA x
+LV
+LA tmp
+STR 
+LC 1
+LA i
+STR 
+*W10 LA i
+LV
+LA n
+LV
+LSI
+JIN *W11
+LA tmp
+LV
+LA x
+LV
+MLI
+LA tmp
+STR 
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+NOP 
+JMP *W10
+*W11 NOP
+LA tmp
+LV
+PRI 
+RDI 
+LA a
+STR 
+LC 2
+LA n
+STR 
+LC 1
+LA x
+STR 
+LC 0
+LA tmp
+STR 
+*W12 LA tmp
+LV
+LA x
+LV
+LSI
+JIN *W13
+LA a
+LV
+LA tmp
+STR 
+LC 1
+LA i
+STR 
+*W14 LA i
+LV
+LA n
+LV
+LSI
+JIN *W15
+LA tmp
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+NOP 
+JMP *W14
+*W15 NOP
+LA n
+LV
+LC 1
+SBI
+LA x
+LV
+MLI
+LA tmp
+LV
+ADI
+LA n
+LV
+DVI
+LA x
+STR 
+LC 2
+LA i
+STR 
+LA a
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+*W16 LA i
+LV
+LA n
+LV
+LSI
+LA x
+LV
+LA tmp
+LV
+LSI
+AND
+JIN *W17
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+LA tmp
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+NOP 
+JMP *W16
+*W17 NOP
+NOP 
+JMP *W12
+*W13 NOP
+LA x
+LV
+LA tmp
+STR 
+LC 1
+LA i
+STR 
+*W18 LA i
+LV
+LA n
+LV
+LSI
+JIN *W19
+LA tmp
+LV
+LA x
+LV
+MLI
+LA tmp
+STR 
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+NOP 
+JMP *W18
+*W19 NOP
+*W20 LA tmp
+LV
+LA a
+LV
+EQI
+NOT 
+LA n
+LV
+LA x
+LV
+LSI
+AND
+JIN *W21
+LA n
+LV
+LC 1
+ADI
+LA n
+STR 
+LC 1
+LA x
+STR 
+LC 0
+LA tmp
+STR 
+*W22 LA tmp
+LV
+LA x
+LV
+LSI
+JIN *W23
+LA a
+LV
+LA tmp
+STR 
+LC 1
+LA i
+STR 
+*W24 LA i
+LV
+LA n
+LV
+LSI
+JIN *W25
+LA tmp
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+NOP 
+JMP *W24
+*W25 NOP
+LA n
+LV
+LC 1
+SBI
+LA x
+LV
+MLI
+LA tmp
+LV
+ADI
+LA n
+LV
+DVI
+LA x
+STR 
+LC 2
+LA i
+STR 
+LA a
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+*W26 LA i
+LV
+LA n
+LV
+LSI
+LA x
+LV
+LA tmp
+LV
+LSI
+AND
+JIN *W27
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+LA tmp
+LV
+LA x
+LV
+DVI
+LA tmp
+STR 
+NOP 
+JMP *W26
+*W27 NOP
+NOP 
+JMP *W22
+*W23 NOP
+LA x
+LV
+LA tmp
+STR 
+LC 1
+LA i
+STR 
+*W28 LA i
+LV
+LA n
+LV
+LSI
+JIN *W29
+LA tmp
+LV
+LA x
+LV
+MLI
+LA tmp
+STR 
+LA i
+LV
+LC 1
+ADI
+LA i
+STR 
+NOP 
+JMP *W28
+*W29 NOP
+NOP 
+JMP *W20
+*W21 NOP
+LA tmp
+LV
+LA a
+LV
+EQI
+JIN *IF30
+LA x
+LV
+PRI 
+LA n
+LV
+PRI 
+NOP 
+JMP *IF31
+*IF30 LC 0 
+LC 1
+SBI 
+PRI 
+NOP 
+*IF31 NOP
+NOP 
+STP 

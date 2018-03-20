@@ -1,0 +1,12 @@
+x := summe(1,2,3,4,5,4,3,2,1);
+print(0);
+print( x );
+print(25);
+print(0);
+print(1);
+y := 1;
+z := summe(x,(x+x),(x+x+x),y,(y*y),(y*y*y), x-x,x-x-x,y/y,y/y/y);
+print(z);
+print(180);
+print(1);print(1)
+

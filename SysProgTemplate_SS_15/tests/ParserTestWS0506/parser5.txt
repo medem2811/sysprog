@@ -1,0 +1,7 @@
+y := min(5,4,3,2,1,2,3,4,5);
+print( y );
+print(1);
+x := 5;
+u := min(x,(x+x),(x+x+x),y,(y*y),(y*y*y), x-x,x-x-x,y/y,y/y/y);
+print(u);
+print(-10)

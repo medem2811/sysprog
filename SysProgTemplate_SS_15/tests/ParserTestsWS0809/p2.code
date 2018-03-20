@@ -1,0 +1,290 @@
+DS a
+DS b
+DS c
+DS d
+DS x
+DS y
+DS ggt
+DS r0
+DS r1
+DS p0
+DS p1
+DS q0
+DS q1
+DS u
+RDI 
+LA a
+STR 
+RDI 
+LA b
+STR 
+LA a
+LV
+LC 0
+LSI
+JIN *IF0
+LC 0 
+LA a
+LV
+SBI 
+LA a
+STR 
+JMP *IF1
+*IF0 NOP 
+*IF1 NOP
+LA b
+LV
+LC 0
+LSI
+JIN *IF2
+LC 0 
+LA b
+LV
+SBI 
+LA b
+STR 
+JMP *IF3
+*IF2 NOP 
+*IF3 NOP
+*W4 LC 0
+LA b
+LV
+LSI
+JIN *W5
+LA a
+LV
+LA b
+LV
+DVI
+LA d
+STR 
+LA a
+LV
+LA d
+LV
+LA b
+LV
+MLI
+SBI
+LA c
+STR 
+LA b
+LV
+LA a
+STR 
+LA c
+LV
+LA b
+STR 
+NOP 
+JMP *W4
+*W5 NOP
+LA a
+LV
+PRI 
+RDI 
+LA a
+STR 
+LA a
+LV
+LC 0
+LSI
+JIN *IF6
+LC 0 
+LA a
+LV
+SBI 
+LA a
+STR 
+LA a
+LV
+PRI 
+NOP 
+JMP *IF7
+*IF6 NOP 
+*IF7 NOP
+RDI 
+LA b
+STR 
+LA b
+LV
+LC 0
+LSI
+JIN *IF8
+LC 0 
+LA b
+LV
+SBI 
+LA b
+STR 
+LA b
+LV
+PRI 
+NOP 
+JMP *IF9
+*IF8 NOP 
+*IF9 NOP
+LA a
+LV
+LA r0
+STR 
+LA b
+LV
+LA r1
+STR 
+LC 0
+LA p0
+STR 
+LC 1
+LA p1
+STR 
+LC 1
+LA q0
+STR 
+LC 0
+LA q1
+STR 
+*W10 LC 0
+LA r0
+LV
+LSI
+LC 0
+LA r1
+LV
+LSI
+AND
+JIN *W11
+LA r0
+LV
+LA r1
+LV
+DVI
+LA u
+STR 
+LA r0
+LV
+LA u
+LV
+LA r1
+LV
+MLI
+SBI
+LA r0
+STR 
+LA u
+LV
+LA p1
+LV
+MLI
+LA p0
+LV
+ADI
+LA p0
+STR 
+LA u
+LV
+LA q1
+LV
+MLI
+LA q0
+LV
+ADI
+LA q0
+STR 
+LC 0
+LA r0
+LV
+LSI
+JIN *IF12
+LA r1
+LV
+LA r0
+LV
+DVI
+LA u
+STR 
+LA r1
+LV
+LA u
+LV
+LA r0
+LV
+MLI
+SBI
+LA r1
+STR 
+LA u
+LV
+LA p0
+LV
+MLI
+LA p1
+LV
+ADI
+LA p1
+STR 
+LA u
+LV
+LA q0
+LV
+MLI
+LA q1
+LV
+ADI
+LA q1
+STR 
+NOP 
+JMP *IF13
+*IF12 NOP 
+*IF13 NOP
+NOP 
+JMP *W10
+*W11 NOP
+LA r0
+LV
+LC 0
+EQI
+JIN *IF14
+LA r1
+LV
+LA ggt
+STR 
+LC 0 
+LA q1
+LV
+SBI 
+LA x
+STR 
+LA p1
+LV
+LA y
+STR 
+NOP 
+JMP *IF15
+*IF14 LA r0
+LV
+LA ggt
+STR 
+LA q0
+LV
+LA x
+STR 
+LC 0 
+LA p0
+LV
+SBI 
+LA y
+STR 
+NOP 
+*IF15 NOP
+LA ggt
+LV
+PRI 
+LA x
+LV
+PRI 
+LA y
+LV
+PRI 
+NOP 
+STP 
