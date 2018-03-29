@@ -64,6 +64,7 @@ Automat::Automat() {
 
 		stateMatrix[(int)State::statei][i] = State::Identifier;
 		stateMatrix[(int)State::stateI][i] = State::Identifier;
+		stateMatrix[(int)State::ifState][i] = State::Identifier;
 		stateMatrix[(int)State::statew][i] = State::Identifier;
 		stateMatrix[(int)State::stateW][i] = State::Identifier;
 		stateMatrix[(int)State::statewh][i] = State::Identifier;
@@ -72,6 +73,7 @@ Automat::Automat() {
 		stateMatrix[(int)State::stateWHI][i] = State::Identifier;
 		stateMatrix[(int)State::statewhil][i] = State::Identifier;
 		stateMatrix[(int)State::stateWHIL][i] = State::Identifier;
+		stateMatrix[(int)State::whileState][i] = State::Identifier;
 	}
 
 	//state for identifier A-Z
@@ -81,6 +83,7 @@ Automat::Automat() {
 
 		stateMatrix[(int)State::statei][i] = State::Identifier;
 		stateMatrix[(int)State::stateI][i] = State::Identifier;
+		stateMatrix[(int)State::ifState][i] = State::Identifier;
 		stateMatrix[(int)State::statew][i] = State::Identifier;
 		stateMatrix[(int)State::stateW][i] = State::Identifier;
 		stateMatrix[(int)State::statewh][i] = State::Identifier;
@@ -89,6 +92,7 @@ Automat::Automat() {
 		stateMatrix[(int)State::stateWHI][i] = State::Identifier;
 		stateMatrix[(int)State::statewhil][i] = State::Identifier;
 		stateMatrix[(int)State::stateWHIL][i] = State::Identifier;
+		stateMatrix[(int)State::whileState][i] = State::Identifier;
 	}
 
 	//signStates:
@@ -154,10 +158,10 @@ Automat::Automat() {
 
 	//set all final states
 	finalStates[(int)State::Start] = false;
-	for (int i = (int) State::Undefined; i <= State::signBracketClose; i++) {
+	for (int i = (int) State::Undefined; i <= State::stateI; i++) {
 		finalStates[i] = true;
 	}
-	for (int i = (int) State::statew; i < State::StateCount; i++) {
+	for (int i = (int) State::stateEColon; i < State::StateCount; i++) {
 		finalStates[i] = false;
 	}
 
@@ -278,9 +282,33 @@ bool Automat::isComment() {
  */
 bool Automat::isCompatible(State::Type type1, State::Type type2) {
 
+	bool states = (type1 == State::statei) || (type1 == State::stateI) ||
+			(type1 == State::statew) || (type1 == State::stateW) ||
+			(type1 == State::statewh) || (type1 == State::stateWH) ||
+			(type1 == State::statewhi) || (type1 == State::stateWHI) ||
+			(type1 == State::statewhil) || (type1 == State::stateWHIL);
+	bool ifwhile = (type1 == State::statew && type2 ==  State::statewh) ||
+			(type1 == State::statewh && type2 ==  State::statewhi) ||
+			(type1 == State::statewhi && type2 ==  State::statewhil) ||
+			(type1 == State::statewhil && type2 ==  State::whileState) ||
+			(type1 == State::stateW && type2 ==  State::stateWH) ||
+			(type1 == State::stateWH && type2 ==  State::stateWHI) ||
+			(type1 == State::stateWHI && type2 ==  State::stateWHIL) ||
+			(type1 == State::stateWHIL && type2 ==  State::whileState) ||
+			(type1 == State::statei && type2 == State::ifState) ||
+			(type1 == State::stateI && type2 == State::ifState);
+
+
 	if (type1 == State::signEquals && type2 == State::signECEquals) {
 		return true;
 	} else if (type1 == State::signColon && type2 == State::signCEquals) {
+		return true;
+	} else if (states && type2 == State::Identifier) {
+		return true;
+	} else if ((type1 == State::ifState || type1 == State::whileState) &&
+			type2 == State::Identifier) {
+		return true;
+	} else if (ifwhile) {
 		return true;
 	} else if (type1 == type2) {
 		return true;
