@@ -55,6 +55,20 @@ Automat::Automat() {
 		stateMatrix[(int)State::stateWHI][i] = State::Identifier;
 		stateMatrix[(int)State::statewhil][i] = State::Identifier;
 		stateMatrix[(int)State::stateWHIL][i] = State::Identifier;
+		stateMatrix[(int)State::statein][i] = State::Identifier;
+		stateMatrix[(int)State::statewr][i] = State::Identifier;
+		stateMatrix[(int)State::statewri][i] = State::Identifier;
+		stateMatrix[(int)State::statewrit][i] = State::Identifier;
+		stateMatrix[(int)State::stater][i] = State::Identifier;
+		stateMatrix[(int)State::statere][i] = State::Identifier;
+		stateMatrix[(int)State::staterea][i] = State::Identifier;
+		stateMatrix[(int)State::statee][i] = State::Identifier;
+		stateMatrix[(int)State::stateE][i] = State::Identifier;
+		stateMatrix[(int)State::stateel][i] = State::Identifier;
+		stateMatrix[(int)State::stateEL][i] = State::Identifier;
+		stateMatrix[(int)State::stateels][i] = State::Identifier;
+		stateMatrix[(int)State::stateELS][i] = State::Identifier;
+
 	}
 
 	//state for identifier a-z
@@ -74,6 +88,23 @@ Automat::Automat() {
 		stateMatrix[(int)State::statewhil][i] = State::Identifier;
 		stateMatrix[(int)State::stateWHIL][i] = State::Identifier;
 		stateMatrix[(int)State::whileState][i] = State::Identifier;
+		stateMatrix[(int)State::statein][i] = State::Identifier;
+		stateMatrix[(int)State::intState][i] = State::Identifier;
+		stateMatrix[(int)State::statewr][i] = State::Identifier;
+		stateMatrix[(int)State::statewri][i] = State::Identifier;
+		stateMatrix[(int)State::statewrit][i] = State::Identifier;
+		stateMatrix[(int)State::writeState][i] = State::Identifier;
+		stateMatrix[(int)State::stater][i] = State::Identifier;
+		stateMatrix[(int)State::statere][i] = State::Identifier;
+		stateMatrix[(int)State::staterea][i] = State::Identifier;
+		stateMatrix[(int)State::readState][i] = State::Identifier;
+		stateMatrix[(int)State::statee][i] = State::Identifier;
+		stateMatrix[(int)State::stateE][i] = State::Identifier;
+		stateMatrix[(int)State::stateel][i] = State::Identifier;
+		stateMatrix[(int)State::stateEL][i] = State::Identifier;
+		stateMatrix[(int)State::stateels][i] = State::Identifier;
+		stateMatrix[(int)State::stateELS][i] = State::Identifier;
+		stateMatrix[(int)State::elseState][i] = State::Identifier;
 	}
 
 	//state for identifier A-Z
@@ -93,6 +124,23 @@ Automat::Automat() {
 		stateMatrix[(int)State::statewhil][i] = State::Identifier;
 		stateMatrix[(int)State::stateWHIL][i] = State::Identifier;
 		stateMatrix[(int)State::whileState][i] = State::Identifier;
+		stateMatrix[(int)State::statein][i] = State::Identifier;
+		stateMatrix[(int)State::intState][i] = State::Identifier;
+		stateMatrix[(int)State::statewr][i] = State::Identifier;
+		stateMatrix[(int)State::statewri][i] = State::Identifier;
+		stateMatrix[(int)State::statewrit][i] = State::Identifier;
+		stateMatrix[(int)State::writeState][i] = State::Identifier;
+		stateMatrix[(int)State::stater][i] = State::Identifier;
+		stateMatrix[(int)State::statere][i] = State::Identifier;
+		stateMatrix[(int)State::staterea][i] = State::Identifier;
+		stateMatrix[(int)State::readState][i] = State::Identifier;
+		stateMatrix[(int)State::statee][i] = State::Identifier;
+		stateMatrix[(int)State::stateE][i] = State::Identifier;
+		stateMatrix[(int)State::stateel][i] = State::Identifier;
+		stateMatrix[(int)State::stateEL][i] = State::Identifier;
+		stateMatrix[(int)State::stateels][i] = State::Identifier;
+		stateMatrix[(int)State::stateELS][i] = State::Identifier;
+		stateMatrix[(int)State::elseState][i] = State::Identifier;
 	}
 
 	//signStates:
@@ -155,6 +203,33 @@ Automat::Automat() {
 	stateMatrix[(int)State::stateWH][73] = State::stateWHI;
 	stateMatrix[(int)State::stateWHI][76] = State::stateWHIL;
 	stateMatrix[(int)State::stateWHIL][69] = State::whileState;
+
+	//ElseStates 101-108-115-101; 69-76-83-69
+	stateMatrix[(int)State::Start][101] = State::statee;
+	stateMatrix[(int)State::statee][108] = State::stateel;
+	stateMatrix[(int)State::stateel][115] = State::stateels;
+	stateMatrix[(int)State::stateels][101] = State::elseState;
+
+	stateMatrix[(int)State::Start][69] = State::stateE;
+	stateMatrix[(int)State::stateE][76] = State::stateEL;
+	stateMatrix[(int)State::stateEL][83] = State::stateELS;
+	stateMatrix[(int)State::stateELS][69] = State::elseState;
+
+	//WriteStates 114-105-116-101
+	stateMatrix[(int)State::statew][114] = State::statewr;
+	stateMatrix[(int)State::statewr][105] = State::statewri;
+	stateMatrix[(int)State::statewri][116] = State::statewrit;
+	stateMatrix[(int)State::statewrit][101] = State::writeState;
+
+	//readStates 114-101-97-100
+	stateMatrix[(int)State::Start][114] = State::stater;
+	stateMatrix[(int)State::stater][101] = State::statere;
+	stateMatrix[(int)State::statere][97] = State::staterea;
+	stateMatrix[(int)State::staterea][100] = State::readState;
+
+	//intStates 110-116
+	stateMatrix[(int)State::statei][110] = State::statein;
+	stateMatrix[(int)State::statein][116] = State::intState;
 
 	//set all final states
 	finalStates[(int)State::Start] = false;
@@ -286,7 +361,15 @@ bool Automat::isCompatible(State::Type type1, State::Type type2) {
 			(type1 == State::statew) || (type1 == State::stateW) ||
 			(type1 == State::statewh) || (type1 == State::stateWH) ||
 			(type1 == State::statewhi) || (type1 == State::stateWHI) ||
-			(type1 == State::statewhil) || (type1 == State::stateWHIL);
+			(type1 == State::statewhil) || (type1 == State::stateWHIL) ||
+			(type1 == State::statein) || (type1 == State::stater) ||
+			(type1 == State::statere) || (type1 == State::staterea) ||
+			(type1 == State::statee) || (type1 == State::stateE) ||
+			(type1 == State::stateel) || (type1 == State::stateEL) ||
+			(type1 == State::stateels) || (type1 == State::stateELS) ||
+			(type1 == State::statewr) || (type1 == State::statewri) ||
+			(type1 == State::statewrit);
+
 	bool ifwhile = (type1 == State::statew && type2 ==  State::statewh) ||
 			(type1 == State::statewh && type2 ==  State::statewhi) ||
 			(type1 == State::statewhi && type2 ==  State::statewhil) ||
@@ -296,7 +379,22 @@ bool Automat::isCompatible(State::Type type1, State::Type type2) {
 			(type1 == State::stateWHI && type2 ==  State::stateWHIL) ||
 			(type1 == State::stateWHIL && type2 ==  State::whileState) ||
 			(type1 == State::statei && type2 == State::ifState) ||
-			(type1 == State::stateI && type2 == State::ifState);
+			(type1 == State::stateI && type2 == State::ifState) ||
+			(type1 == State::statei && type2 == State::statein) ||
+			(type1 == State::statein && type2 == State::intState) ||
+			(type1 == State::statew && type2 == State::statewr) ||
+			(type1 == State::statewr && type2 == State::statewri) ||
+			(type1 == State::statewri && type2 == State::statewrit) ||
+			(type1 == State::statewrit && type2 == State::writeState) ||
+			(type1 == State::stater && type2 == State::statere) ||
+			(type1 == State::statere && type2 == State::staterea) ||
+			(type1 == State::staterea && type2 == State::readState) ||
+			(type1 == State::statee && type2 == State::stateel) ||
+			(type1 == State::stateel && type2 == State::stateels) ||
+			(type1 == State::stateels && type2 == State::elseState) ||
+			(type1 == State::stateE && type2 == State::stateEL) ||
+			(type1 == State::stateEL && type2 == State::stateELS) ||
+			(type1 == State::stateELS && type2 == State::elseState);
 
 
 	if (type1 == State::signEquals && type2 == State::signECEquals) {
@@ -305,7 +403,9 @@ bool Automat::isCompatible(State::Type type1, State::Type type2) {
 		return true;
 	} else if (states && type2 == State::Identifier) {
 		return true;
-	} else if ((type1 == State::ifState || type1 == State::whileState) &&
+	} else if ((type1 == State::ifState || type1 == State::whileState ||
+			type1 == State::elseState || type1 == State::intState ||
+			type1 == State::readState || type1 == State::writeState)&&
 			type2 == State::Identifier) {
 		return true;
 	} else if (ifwhile) {
