@@ -10,14 +10,16 @@
 
 Parser::Parser(char* filename) {
 	scanner = new Scanner(filename);
+	currentToken = scanner->nextToken();
 }
 
 Parser::~Parser() {
 
 }
 
-bool parse () {
+bool Parser::parse () {
 
+	PROG();
 	return true;
 }
 
@@ -28,16 +30,20 @@ void Parser::PROG() {
 
 void Parser::DECLS() {
 
-	if (1 == 1) { //Token == int
+	if (currentToken->getType() == State::intState) { //Token == int
 
-		DECL();
+		currentToken = scanner->nextToken();
+		//DECL();
 
-		if (1) { //Token == ;
+		if (currentToken->getType() == State::signSemiColon) { //Token == ;
 
+			currentToken = scanner->nextToken();
 			DECLS();
 
 		} else { //error
 
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+					<< ": ;" << endl;
 		}
 
 
@@ -48,51 +54,72 @@ void Parser::DECLS() {
 
 void Parser::DECL() {
 
-	if (1) { //Token == int
+	if (currentToken->getType() == State::intState) { //Token == int
+
+		currentToken = scanner->nextToken();
 
 		ARRAY();
 
-		if (1) { //Token == identifier
+		if (currentToken->getType() == State::Identifier) { //Token == identifier
 
+			currentToken = scanner->nextToken();
 		}
 	} else { //error
-
+		cerr << "Error: Syntax Error in line " << currentToken->getLine()
+							<< endl;
 	}
 }
 
 void Parser::ARRAY() {
 
-	if (1) { //Token == [
+	if (currentToken->getType() == State::signBracketOpen) { //Token == [
 
-		if (1) { // ==integer
+		currentToken = scanner->nextToken();
 
-			if (1) { // == ]
+		if (currentToken->getType() == State::Integer) { // ==integer
+
+			currentToken = scanner->nextToken();
+
+			if (currentToken->getType() == State::signBracketClose) { // == ]
+
+				currentToken = scanner->nextToken();
 
 			} else { //error
-
+				cerr << "Error: Unexpected Token in line " << currentToken->getLine()
+											<< endl;
 			}
 
 		} else { //error
-
+			cerr << "Error: Unexpected Token in line " << currentToken->getLine()
+														<< endl;
 		}
 
 	} else { //epsilon
-
+		cerr << "Error: Unexpected Token in line " << currentToken->getLine()
+													<< endl;
 	}
 }
 
 void Parser::STATEMENTS() {
 
-	if (1) { // ==identifier | == write | == read | == { | == if | == while
+	if (currentToken->getType() == State::Identifier ||
+			currentToken->getType() == State::writeState ||
+			currentToken->getType() == State::readState ||
+			currentToken->getType() == State::signCurlyBracketOpen ||
+			currentToken->getType() == State::ifState ||
+			currentToken->getType() == State::whileState) { // ==identifier | == write | == read | == { | == if | == while
 
 		STATEMENT();
 
-		if(1) { // == ;
+		if(currentToken->getType() == State::signSemiColon) { // == ;
 
+			currentToken = scanner->nextToken();
 			STATEMENTS();
 
 		} else { //error
 
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+					<< ": ;" << endl;
 		}
 
 	} else { //epsilon
@@ -102,111 +129,155 @@ void Parser::STATEMENTS() {
 
 void Parser::STATEMENT() {
 
-	if (1) { //identifier
+	if (currentToken->getType() == State::Identifier) { //identifier
 
-
+		currentToken = scanner->nextToken();
 		INDEX();
 
-		if (1) { // == :=
+		if (currentToken->getType() == State::signCEquals) { // == :=
 
+			currentToken = scanner->nextToken();
 
 			EXP();
 
 		} else { // error
 
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": :=" << endl;
 		}
 
-	} else if (1) { // write
+	} else if (currentToken->getType() == State::writeState) { // write
 
-		if (1) { // (
+		currentToken = scanner->nextToken();
+		if (currentToken->getType() == State::signRoundBracketOpen) { // (
+
+			currentToken = scanner->nextToken();
 
 			EXP();
 
-			if (1) { // )
+			if (currentToken->getType() == State::signRoundBracketClose) { // )
+
+				currentToken = scanner->nextToken();
 
 			} else { //error
-
+				cerr << "Error: missing Token in line " << currentToken->getLine()
+									<< ": )" << endl;
 			}
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": (" << endl;
 		}
 
-	} else if (1) { //read
+	} else if (currentToken->getType() == State::readState) { //read
 
-		if (1) { // (
+		currentToken = scanner->nextToken();
 
-			if (1) { // identifier
+		if (currentToken->getType() == State::signRoundBracketOpen) { // (
+
+			currentToken = scanner->nextToken();
+
+			if (currentToken->getType() == State::Identifier) { // identifier
+
+				currentToken = scanner->nextToken();
 
 				INDEX();
 
-				if (1) { // )
+				if (currentToken->getType() == State::signRoundBracketClose) { // )
+
+					currentToken = scanner->nextToken();
 
 				} else { //error
-
+					cerr << "Error: missing Token in line " << currentToken->getLine()
+										<< ": )" << endl;
 				}
 			} else { //error
-
+				cerr << "Error: wrong Token in line " << currentToken->getLine()
+									<< endl;
 			}
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": (" << endl;
 		}
 
-	} else if (1) { // {
+	} else if (currentToken->getType() == State::signCurlyBracketOpen) { // {
 
+		currentToken = scanner->nextToken();
 		STATEMENTS();
 
-		if (1) { // }
+		if (currentToken->getType() == State::signCurlyBracketClose) { // }
+
+			currentToken = scanner->nextToken();
 
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": }" << endl;
 		}
 
-	} else if (1) { // if
+	} else if (currentToken->getType() == State::ifState) { // if
 
-		if (1) { // (
+		currentToken = scanner->nextToken();
+
+		if (currentToken->getType() == State::signRoundBracketOpen) { // (
+
+			currentToken = scanner->nextToken();
 
 			EXP();
 
-			if (1) { // )
+			if (currentToken->getType() == State::signRoundBracketClose) { // )
+
+				currentToken = scanner->nextToken();
 
 				STATEMENT();
 
-				if (1) { // else
+				if (currentToken->getType() == State::elseState) { // else
+
+					currentToken = scanner->nextToken();
 
 					STATEMENT();
 
 				} else { //error
-
+					cerr << "Error: missing Else-Statement in line " << currentToken->getLine()
+										<< endl;
 				}
 
 			} else { //error
-
+				cerr << "Error: missing Token in line " << currentToken->getLine()
+									<< ": )" << endl;
 			}
 
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": (" << endl;
 		}
 
-	} else if (1) { // while
+	} else if (currentToken->getType() == State::whileState) { // while
 
-		if (1) { // (
+		currentToken = scanner->nextToken();
+
+		if (currentToken->getType() == State::signRoundBracketOpen) { // (
+
+			currentToken = scanner->nextToken();
 
 			EXP();
 
-			if (1) { // )
+			if (currentToken->getType() == State::signRoundBracketClose) { // )
 
+				currentToken = scanner->nextToken();
 				STATEMENT();
 
 			} else { //error
-
+				cerr << "Error: missing Token in line " << currentToken->getLine()
+									<< ": )" << endl;
 			}
 
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": (" << endl;
 		}
 
 	} else { //error
-
+		cerr << "Error: Syntax Error in line " << currentToken->getLine()
+							<< endl;
 	}
 }
 
@@ -219,42 +290,58 @@ void Parser::EXP() {
 
 void Parser::EXP2() {
 
-	if (1) { // (
+	if (currentToken->getType() == State::signRoundBracketOpen) { // (
 
+		currentToken = scanner->nextToken();
 		EXP();
 
-		if (1) { // )
+		if (currentToken->getType() == State::signRoundBracketClose) { // )
+
+			currentToken = scanner->nextToken();
 
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": )" << endl;
 		}
-	} else if (1) { //identifier
+	} else if (currentToken->getType() == State::Identifier) { //identifier
 
+		currentToken = scanner->nextToken();
 		INDEX();
-	} else if (1) { //integer
 
-	} else if (1) { //-
+	} else if (currentToken->getType() == State::Integer) { //integer
 
+		currentToken = scanner->nextToken();
+
+	} else if (currentToken->getType() == State::signMinus) { //-
+
+		currentToken = scanner->nextToken();
 		EXP2();
-	} else if (1) { //!
 
+	} else if (currentToken->getType() == State::signExclamation) { //!
+
+		currentToken = scanner->nextToken();
 		EXP2();
 	} else { //error
-
+		cerr << "Error: unexpected Token in line " << currentToken->getLine()
+						 << endl;
 	}
 
 }
 
 void Parser::INDEX() {
 
-	if (1) { // [
+	if (currentToken->getType() == State::signBracketOpen) { // [
+
+		currentToken = scanner->nextToken();
 
 		EXP();
 
-		if (1) { // ]
+		if (currentToken->getType() == State::signBracketClose) { // ]
 
+			currentToken = scanner->nextToken();
 		} else { //error
-
+			cerr << "Error: missing Token in line " << currentToken->getLine()
+								<< ": ]" << endl;
 		}
 
 	} else { //epsilon
@@ -265,7 +352,15 @@ void Parser::INDEX() {
 
 void Parser::OP_EXP() {
 
-	if (1) { // + | - | * | : | < | > | = | =:= | &&
+	if (currentToken->getType() == State::signPlus ||
+			currentToken->getType() == State::signMinus ||
+			currentToken->getType() == State::signStar ||
+			currentToken->getType() == State::signColon ||
+			currentToken->getType() == State::signSmaller ||
+			currentToken->getType() == State::signBigger ||
+			currentToken->getType() == State::signEquals ||
+			currentToken->getType() == State::signECEquals ||
+			currentToken->getType() == State::signDoubleAnd) { // + | - | * | : | < | > | = | =:= | &&
 
 		OP();
 
@@ -279,26 +374,46 @@ void Parser::OP_EXP() {
 
 void Parser::OP() {
 
-	if (1) { // +
+	if (currentToken->getType() == State::signPlus) { // +
 
-	} else if (1) { // -
+		currentToken = scanner->nextToken();
 
-	} else if (1) { // *
+	} else if (currentToken->getType() == State::signMinus) { // -
 
-	} else if (1) { // :
+		currentToken = scanner->nextToken();
 
-	} else if (1) { // <
+	} else if (currentToken->getType() == State::signStar) { // *
 
-	} else if (1) { // >
+		currentToken = scanner->nextToken();
 
-	} else if (1) { // =
+	} else if (currentToken->getType() == State::signColon) { // :
 
-	} else if (1) { // =:=
+		currentToken = scanner->nextToken();
 
-	} else if (1) { // &&
+	} else if (currentToken->getType() == State::signSmaller) { // <
+
+		currentToken = scanner->nextToken();
+
+	} else if (currentToken->getType() == State::signBigger) { // >
+
+		currentToken = scanner->nextToken();
+
+	} else if (currentToken->getType() == State::signEquals) { // =
+
+		currentToken = scanner->nextToken();
+
+	} else if (currentToken->getType() == State::signECEquals) { // =:=
+
+		currentToken = scanner->nextToken();
+
+	} else if (currentToken->getType() == State::signDoubleAnd) { // &&
+
+		currentToken = scanner->nextToken();
 
 	} else { //error
 
+		cerr << "Error: Unexpected Token in line " << currentToken->getLine()
+				<<endl;
 	}
 
 }

@@ -8,6 +8,9 @@
  *      Author: mella
  */
 #include "../../Scanner/includes/Scanner.h"
+#include <iostream>
+using namespace std;
+
 
 #ifndef PARSER_INCLUDES_PARSER_H_
 #define PARSER_INCLUDES_PARSER_H_
@@ -27,6 +30,7 @@ public:
 private:
 
 	Scanner* scanner;
+	Token* currentToken;
 
 	//functions for all the Grammarrules
 

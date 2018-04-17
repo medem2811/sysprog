@@ -233,7 +233,7 @@ Automat::Automat() {
 
 	//set all final states
 	finalStates[(int)State::Start] = false;
-	for (int i = (int) State::Undefined; i <= State::stateI; i++) {
+	for (int i = (int) State::Undefined; i <= State::staterea; i++) {
 		finalStates[i] = true;
 	}
 	for (int i = (int) State::stateEColon; i < State::StateCount; i++) {

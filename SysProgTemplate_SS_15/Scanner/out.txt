@@ -12,3 +12,5 @@ Token Else		Line: 9 	Column: 1
 Token Integer		Line: 9 	Column: 5 	Value: 123
 Token Write		Line: 10 	Column: 1 	
 Token Read		Line: 10 	Column: 7 	
+Token Int		Line: 11 	Column: 1 	
+Token Identifier	Line: 12 	Column: 1 	Lexem: stuff

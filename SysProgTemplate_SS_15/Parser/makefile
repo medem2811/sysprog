@@ -13,74 +13,67 @@ OBJDIR = objs
 BINDIRTEST = debug
 
 
+AUTOMATDIR = ../Automat
+
+BUFFERDIR = ../Buffer
+
+SYMBOLTABLEDIR = ../Symboltable
+
+TOKENDIR = ../Token
+
+SCANNERDIR = ../Scanner
+
+
 ## hier alle Object Files eintragen, ausser das File mit der Mainmethode
 ## darauf achten, dass letzte Zeile ohne "\" eingetragen wird
 
-OBJS = $(OBJDIR)/Parser.o 
-	   
+OBJS = $(OBJDIR)/Parser.o \
 	#$(OBJDIR)/xx1.o \
 	#$(OBJDIR)/xxn.o
 
 
-#
-#		Targets zum Bauen des Tests
-#
-
-# Variante mit geringen Makefile-Kenntnissen
-
-## Linken der Object-Files
-#makeTestSymboltable: $(OBJDIR)/Symboltable.o $(OBJDIR)/TestSymboltable.o
-#	g++ -g $(OBJDIR)/Symboltable.o $(OBJDIR)/TestSymboltable.o -o $(BINDIR)/SymboltableTest
-#   cp $(OBJDIR)/Symboltable.o ../projectOBJs
-#
-#	
-## compilieren der Source-files
-#
-#$(OBJDIR)/Symboltable.o :  $(SRCDIR)/Symboltable.cpp $(HEADERDIR)/Symboltable.h
+## Variante mit wenig Makefile-Kenntnissen
+# 
+## linken der Object-files 
+#makeTestScanner: $(OBJDIR)/Scanner.o $(OBJDIR)/TestScanner.o
+#	g++ -g $(OBJDIR)/Scanner.o $(OBJDIR)/TestScanner.o   $(PROJECTOBJDIR)/Automat/*.o $(PROJECTOBJDIR)/Buffer/*.o $(PROJECTOBJDIR)/Symboltable/*.o -o $(BINDIRTEST)/ScannerTest
+##	
+##	
+##	
+### compilieren der source-files
+#$(OBJDIR)/Scanner.o :  $(SRCDIR)/Scanner.cpp $(HEADERDIR)/Scanner.h
 #	@echo "g++ $*.cpp"
-#	g++ -g  -c -Wall  -o $(OBJDIR)/Symboltable.o  $(SRCDIR)/Symboltable.cpp
-#
-#
-#$(OBJDIR)/TestSymboltable.o :  $(SRCDIR)/TestSymboltable.cpp $(SRCDIR)/Symboltable.h
+#	g++ -g  -c -Wall  -o $(OBJDIR)/Scanner.o  $(SRCDIR)/Scanner.cpp
+#	cp $(OBJDIR)/Scanner.o $(PROJECTOBJDIR)/Scanner
+##
+#$(OBJDIR)/TestScanner.o :  $(SRCDIR)/TestScanner.cpp 
 #	@echo "g++ $*.cpp"
-#	g++ -g  -c -Wall  -o $(OBJDIR)/TestSymboltable.o  $(SRCDIR)/TestSymboltable.cpp
+#	g++ -g  -c -Wall  -o $(OBJDIR)/TestScanner.o  $(SRCDIR)/TestScanner.cpp
 #
-
-
+	
+	
 # Variante mit guten Makefile-Kenntnissen
+makeTestParser: $(OBJS) ParserTest
 
-makeTestParser: ParserTarget TestParserTarget
-	g++ -g $(OBJDIR)/*.o $(BINDIRTEST)/TestParser.o  -o $(BINDIRTEST)/ParserTest
-
-ParserTarget: $(OBJS)
-
-# $@ name des object files = name auf der linken Seite vom Doppelpunkt des Targets
-# $< erste abhaengigkeit, $< das erste Element in der Liste der Abhaengigkeiten
-# $@ --> linke Seite vom Doppelpunkt
-# $^ --> rechte Seite vom Doppelpunkt
 
 $(OBJDIR)/%.o :  $(SRCDIR)/%.cpp $(HEADERDIR)/%.h
-	g++ -g  -c -Wall  $<  -o $@
+	@echo "g++ $*.cpp"
+	g++ -g  -c -Wall  -o $@  $<
+
+# 
+# $@ name des object files
+# $< erste abhaengigkeit
 
 
-TestParserTarget: $(SRCDIR)/TestParser.cpp $(HEADERDIR)/Parser.h
+ParserTest: $(SRCDIR)/TestParser.cpp $(HEADERDIR)/Parser.h
 	g++ -g  -c -Wall $(SRCDIR)/TestParser.cpp -o $(BINDIRTEST)/TestParser.o  
-  
+	g++ -g $(BINDIRTEST)/TestParser.o $(OBJDIR)/*.o $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o $(TOKENDIR)/$(OBJDIR)/*.o $(SCANNERDIR)/$(OBJDIR)/*.o -o $(BINDIRTEST)/ParserTest
 
-
-# loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu compilieren
+# loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu erstellen
 
 cleanParser:
 	rm -rf $(OBJDIR)/*.o
 	rm -rf $(BINDIRTEST)/*
 	$(MAKE) makeTestParser
-	
-	
-	
-	
-## objs fuer GesamtProjekt neu erzeugen
-ParserOBJTarget:
-	$(MAKE) ParserTarget
-	
 
-	
+
