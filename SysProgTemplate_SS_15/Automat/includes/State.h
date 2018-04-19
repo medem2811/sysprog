@@ -73,7 +73,8 @@ public:
 		stateCommentStart,
 		stateCommentStar,
 
-		StateCount
+		StateCount,
+		EndState
 		
 	};
 

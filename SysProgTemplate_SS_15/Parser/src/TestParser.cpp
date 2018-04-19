@@ -11,5 +11,7 @@ int main (int argc, char **argv) {
 
 	if (exit) {
 		cout << "Parsing successful!" << endl;
+	} else {
+		cout << "stop" << endl;
 	}
 }

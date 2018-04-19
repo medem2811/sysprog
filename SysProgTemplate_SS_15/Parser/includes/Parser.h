@@ -9,6 +9,7 @@
  */
 #include "../../Scanner/includes/Scanner.h"
 #include <iostream>
+#include <cstdio>
 using namespace std;
 
 
@@ -31,6 +32,8 @@ private:
 
 	Scanner* scanner;
 	Token* currentToken;
+	Token* prevToken;
+	bool error;
 
 	//functions for all the Grammarrules
 
@@ -68,6 +71,8 @@ private:
 
 	// OP ::= + | - | * | : | < | > | = | =:= | &&
 	void OP();
+
+	void errorMessage(State::Type type);
 
 };
 

@@ -37,6 +37,7 @@ private:
 
 	char* value;
 	State::Type type;
+	int lastColumn;
 
 	char* tempChars;
 
