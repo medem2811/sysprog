@@ -29,6 +29,7 @@ public:
 	 * Returns the Column the Token starts on
 	 */
 	int getTokenColumn();
+
 	/*
 	 * Returns the final state that was reached last
 	 */

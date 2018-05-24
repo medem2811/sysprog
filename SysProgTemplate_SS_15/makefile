@@ -13,9 +13,10 @@ SCANNERDIR = Scanner
 
 TOKENDIR = Token
 
+PARSERDIR = Parser
 
 
-all:	automatOBJs bufferOBJs symboltableOBJs tokenOBJs scanner  
+all:	automatOBJs bufferOBJs symboltableOBJs tokenOBJs scanner parser  
 	@echo "target all"
 
 	
@@ -28,7 +29,8 @@ clean:
 	rm -f $(SCANNERDIR)/$(OBJDIR)/*.o
 	rm -f $(TOKENDIR)/$(OBJDIR)/*.o
 	rm -f $(SCANNERDIR)/debug/*
-	
+	rm -f $(PARSERDIR)/debug/*
+
 
 automatOBJs:
 	$(MAKE) -C $(AUTOMATDIR) AutomatOBJTarget
@@ -46,6 +48,9 @@ tokenOBJs:
 
 scanner: 
 	$(MAKE) -C $(SCANNERDIR) makeTestScanner
+	
+parser: 
+	$(MAKE) -C $(PARSERDIR) makeTestParser
 	
 
 

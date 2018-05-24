@@ -36,6 +36,14 @@ int main(int argc, char **argv) {
 											break;
 			case (int)State::whileState :	out << "While\t\t";
 											break;
+			case (int)State::elseState :	out << "Else\t\t";
+											break;
+			case (int)State::intState :		out << "Int\t\t";
+											break;
+			case (int)State::readState :	out << "Read\t\t";
+											break;
+			case (int)State::writeState :	out << "Write\t\t";
+											break;
 			case (int)State::signPlus :		out << "+ \t\t";
 											break;
 			case (int)State::signMinus : 	out << "- \t\t";

@@ -30,6 +30,11 @@ void Symboltable::initSymbols() {
 	this->insert((char*)"WHILE", 5,(char*) "while");
 	this->insert((char*)"if", 2,(char*) "if");
 	this->insert((char*)"IF", 2,(char*) "if");
+	this->insert((char*)"else", 4,(char*) "else");
+	this->insert((char*)"ELSE", 4, (char*) "else");
+	this->insert((char*)"int", 3, (char*) "int");
+	this->insert((char*)"read", 4,(char*) "read");
+	this->insert((char*)"write", 5,(char*)"write");
 
 }
 

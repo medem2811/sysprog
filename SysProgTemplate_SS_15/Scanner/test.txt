@@ -4,3 +4,9 @@ whi
 -w
 .i
 .w
+else
+ELSE
+else123
+write read
+int 
+stuff

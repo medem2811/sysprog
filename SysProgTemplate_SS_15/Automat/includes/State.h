@@ -19,6 +19,10 @@ public:
 		Identifier,
 		ifState,
 		whileState,
+		elseState,
+		intState,
+		writeState,
+		readState,
 		signPlus,
 		signMinus,
 		signColon,
@@ -47,15 +51,30 @@ public:
 		stateWH,
 		stateWHI,
 		stateWHIL,
+		statewr,
+		statewri,
+		statewrit,
 		statei,
 		stateI,
+		statein,
+		statee,
+		stateel,
+		stateels,
+		stateE,
+		stateEL,
+		stateELS,
+		stater,
+		statere,
+		staterea,
+
 
 		stateEColon,
 		stateSingleAnd,
 		stateCommentStart,
 		stateCommentStar,
 
-		StateCount
+		StateCount,
+		EndState
 		
 	};
 

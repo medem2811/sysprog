@@ -6,3 +6,11 @@ Token - 		Line: 4 	Column: 1
 Token Identifier	Line: 4 	Column: 2 	Lexem: w
 Token Identifier	Line: 5 	Column: 2 	Lexem: i
 Token Identifier	Line: 6 	Column: 2 	Lexem: w
+Token Else		Line: 7 	Column: 1 	
+Token Else		Line: 8 	Column: 1 	
+Token Else		Line: 9 	Column: 1 	
+Token Integer		Line: 9 	Column: 5 	Value: 123
+Token Write		Line: 10 	Column: 1 	
+Token Read		Line: 10 	Column: 7 	
+Token Int		Line: 11 	Column: 1 	
+Token Identifier	Line: 12 	Column: 1 	Lexem: stuff

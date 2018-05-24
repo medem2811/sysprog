@@ -31,6 +31,8 @@ Scanner::Scanner(char* filename) {
 	//is found
 	tempChars = new char [Buffer_Size];
 
+	lastColumn = 0;
+
 
 }
 
@@ -206,8 +208,9 @@ Token* Scanner::nextToken() {
 
 	if (value[0] != '\0') {
 		token = createToken(value, automat->getTokenLine(), automat->getTokenColumn(), tokenType, size);
+		lastColumn = automat->getTokenColumn() + size;
 	} else {
-		token = NULL;
+		token = createToken((char*) "", automat->getTokenLine(), lastColumn, State::EndState, 0);
 	}
 	//after creating Token, empty the value so that it won't be created twice
 	//in case of multiple whitespaces or multiple Errors
