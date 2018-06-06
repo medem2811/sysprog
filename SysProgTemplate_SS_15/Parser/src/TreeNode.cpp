@@ -482,7 +482,22 @@ bool TreeNode::setChild(TreeNode* child) {
 			childIndex++;
 			return true;
 		}
-	} else {
-		return false;
 	}
+	return false;
+}
+
+Rule TreeNode::getRule() {
+	return rule;
+}
+
+TreeNode* TreeNode::getParent() {
+	return parent;
+}
+
+Token* TreeNode::getToken() {
+	if (rule == Rule::LeafNode) {
+		return token;
+	}
+
+	return NULL;
 }

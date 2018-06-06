@@ -8,6 +8,7 @@
  *      Author: mella
  */
 #include "../../Scanner/includes/Scanner.h"
+#include "TreeNode.h"
 #include <iostream>
 #include <cstdio>
 using namespace std;
@@ -34,6 +35,7 @@ private:
 	Token* currentToken;
 	Token* prevToken;
 	bool error;
+	TreeNode* root;
 
 	//functions for all the Grammarrules
 
@@ -41,36 +43,36 @@ private:
 	void PROG();
 
 	// DECLS ::= DECL;DECLS | E
-	void DECLS();
+	void DECLS(TreeNode* parent);
 
 	// DECL ::= int ARRAY identifier
-	void DECL();
+	void DECL(TreeNode* parent);
 
 	// ARRAY ::= [int] | E
-	void ARRAY();
+	void ARRAY(TreeNode* parent);
 
 	// STATEMENTS ::= STATEMENT;STATEMENTS | E
-	void STATEMENTS();
+	void STATEMENTS(TreeNode* parent);
 
 	// STATEMENT ::= identifier INDEX:=EXP | write(EXP) |
 	// read(identifier INDEX) | {STATEMENTS} | if (EXP) STATEMENT else STATEMENT |
 	// while (EXP) STATEMENT
-	void STATEMENT();
+	void STATEMENT(TreeNode* parent);
 
 	// EXP ::= EXP2 OP_EXP
-	void EXP();
+	void EXP(TreeNode* parent);
 
 	// EXP2 ::= (EXP) | identifier INDEX | integer | -EXP2 | !EXP2
-	void EXP2();
+	void EXP2(TreeNode* parent);
 
 	// INDEX ::= [EXP] | E
-	void INDEX();
+	void INDEX(TreeNode* parent);
 
 	// OP_EXP ::= OP EXP | E
-	void OP_EXP();
+	void OP_EXP(TreeNode* parent);
 
 	// OP ::= + | - | * | : | < | > | = | =:= | &&
-	void OP();
+	void OP(TreeNode* parent);
 
 	void errorMessage(State::Type type);
 
