@@ -22,13 +22,14 @@ Parser::~Parser() {
 
 bool Parser::parse () {
 
+	fprintf (stdout, "parsing...\n");
 	PROG();
 	return !error;
 }
 
 void Parser::PROG() {
 
-	root = new TreeNode(NULL, Rule::ProgNode);
+	root = new TreeNode(NULL, Rules::ProgNode);
 	DECLS(root);
 	STATEMENTS(root);
 }
@@ -37,7 +38,7 @@ void Parser::DECLS(TreeNode* parent) {
 
 	if (!error && currentToken->getType() == State::intState) { //Token == int
 
-		TreeNode* decls = new TreeNode(parent, Rule::DeclsNode);
+		TreeNode* decls = new TreeNode(parent, Rules::DeclsNode);
 		error = !parent->setChild(decls);
 		DECL(decls);
 
@@ -55,7 +56,7 @@ void Parser::DECLS(TreeNode* parent) {
 
 	} else { //epsilon
 
-		TreeNode* epsilon = new TreeNode(parent, Rule::Epsilon);
+		TreeNode* epsilon = new TreeNode(parent, Rules::Epsilon);
 		error = !parent->setChild(epsilon);
 	}
 }
@@ -63,7 +64,7 @@ void Parser::DECLS(TreeNode* parent) {
 void Parser::DECL(TreeNode* parent) {
 
 
-	TreeNode* decl = new TreeNode(parent, Rule::DeclNode);
+	TreeNode* decl = new TreeNode(parent, Rules::DeclNode);
 	error = !parent->setChild(decl);
 
 	TreeNode* intNode = new TreeNode(decl, currentToken);
@@ -89,7 +90,7 @@ void Parser::ARRAY(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signBracketOpen) { //Token == [
 
-		TreeNode* array = new TreeNode(parent, Rule::ArrayNode);
+		TreeNode* array = new TreeNode(parent, Rules::ArrayNode);
 		error = !parent->setChild(array);
 
 		TreeNode* bracketOpen = new TreeNode(array, currentToken);
@@ -118,7 +119,7 @@ void Parser::ARRAY(TreeNode* parent) {
 
 	} else { //epsilon
 
-		TreeNode* epsilon = new TreeNode(parent, Rule::Epsilon);
+		TreeNode* epsilon = new TreeNode(parent, Rules::Epsilon);
 		error = !parent->setChild(epsilon);
 	}
 }
@@ -133,7 +134,7 @@ void Parser::STATEMENTS(TreeNode* parent) {
 			currentToken->getType() == State::ifState ||
 			currentToken->getType() == State::whileState)) { // ==identifier | == write | == read | == { | == if | == while
 
-		TreeNode* stats = new TreeNode (parent, Rule::StatsNode);
+		TreeNode* stats = new TreeNode (parent, Rules::StatsNode);
 		error = !parent->setChild(stats);
 		STATEMENT(stats);
 
@@ -151,7 +152,7 @@ void Parser::STATEMENTS(TreeNode* parent) {
 
 	} else if (!error) { //epsilon
 
-		TreeNode* epsilon = new TreeNode(parent, Rule::Epsilon);
+		TreeNode* epsilon = new TreeNode(parent, Rules::Epsilon);
 		error = !parent->setChild(epsilon);
 	}
 }
@@ -161,7 +162,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 	if (!error) {
 	if (currentToken->getType() == State::Identifier) { //identifier
 
-		TreeNode* stat = new TreeNode(parent, Rule::StatAssignment);
+		TreeNode* stat = new TreeNode(parent, Rules::StatAssignment);
 		error = !parent->setChild(stat);
 
 		TreeNode* identifier = new TreeNode(stat, currentToken);
@@ -184,7 +185,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::writeState) { // write
 
-		TreeNode* stat = new TreeNode(parent, Rule::StatWrite);
+		TreeNode* stat = new TreeNode(parent, Rules::StatWrite);
 		error = !parent->setChild(stat);
 
 		TreeNode* write = new TreeNode(stat, currentToken);
@@ -214,7 +215,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::readState) { //read
 
-		TreeNode* stat = new TreeNode(parent, Rule::StatRead);
+		TreeNode* stat = new TreeNode(parent, Rules::StatRead);
 		error = !parent->setChild(stat);
 
 		TreeNode* read = new TreeNode(stat, currentToken);
@@ -253,7 +254,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signCurlyBracketOpen) { // {
 
-		TreeNode* stat = new TreeNode(parent, Rule::StatStatements);
+		TreeNode* stat = new TreeNode(parent, Rules::StatStatements);
 		error = !parent->setChild(stat);
 
 		TreeNode* bracketOpen = new TreeNode(stat, currentToken);
@@ -273,7 +274,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::ifState) { // if
 
-		TreeNode* stat = new TreeNode(parent, Rule::StatIfElse);
+		TreeNode* stat = new TreeNode(parent, Rules::StatIfElse);
 		error = !parent->setChild(stat);
 
 		TreeNode* ifNode = new TreeNode(stat, currentToken);
@@ -318,7 +319,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::whileState) { // while
 
-		TreeNode* stat = new TreeNode(parent, Rule::StatWhile);
+		TreeNode* stat = new TreeNode(parent, Rules::StatWhile);
 		error = !parent->setChild(stat);
 
 		TreeNode* whileNode = new TreeNode(stat, currentToken);
@@ -355,7 +356,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 
 void Parser::EXP(TreeNode* parent) {
 
-	TreeNode* exp = new TreeNode(parent, Rule::ExpNode);
+	TreeNode* exp = new TreeNode(parent, Rules::ExpNode);
 	error = !parent->setChild(exp);
 	EXP2(exp);
 
@@ -366,7 +367,7 @@ void Parser::EXP2(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signRoundBracketOpen) { // (
 
-		TreeNode* exp2 = new TreeNode(parent, Rule::Exp2Brackets);
+		TreeNode* exp2 = new TreeNode(parent, Rules::Exp2Brackets);
 		error = !parent->setChild(exp2);
 
 		TreeNode* bracketOpen = new TreeNode(exp2, currentToken);
@@ -387,7 +388,7 @@ void Parser::EXP2(TreeNode* parent) {
 		}
 	} else if (currentToken->getType() == State::Identifier) { //identifier
 
-		TreeNode* exp2 = new TreeNode(parent, Rule::Exp2Identifier);
+		TreeNode* exp2 = new TreeNode(parent, Rules::Exp2Identifier);
 		error = !parent->setChild(exp2);
 
 		TreeNode* leaf = new TreeNode(exp2, currentToken);
@@ -398,7 +399,7 @@ void Parser::EXP2(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::Integer) { //integer
 
-		TreeNode* exp2 = new TreeNode(parent, Rule::Exp2Integer);
+		TreeNode* exp2 = new TreeNode(parent, Rules::Exp2Integer);
 		error = !parent->setChild(exp2);
 
 		TreeNode* leaf = new TreeNode(exp2, currentToken);
@@ -408,7 +409,7 @@ void Parser::EXP2(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signMinus) { //-
 
-		TreeNode* exp2 = new TreeNode(parent, Rule::Exp2Minus);
+		TreeNode* exp2 = new TreeNode(parent, Rules::Exp2Minus);
 		error = !parent->setChild(exp2);
 
 		TreeNode* leaf = new TreeNode(exp2, currentToken);
@@ -419,7 +420,7 @@ void Parser::EXP2(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signExclamation) { //!
 
-		TreeNode* exp2 = new TreeNode(parent, Rule::Exp2Exclamation);
+		TreeNode* exp2 = new TreeNode(parent, Rules::Exp2Exclamation);
 		error = !parent->setChild(exp2);
 
 		TreeNode* leaf = new TreeNode(exp2, currentToken);
@@ -437,7 +438,7 @@ void Parser::INDEX(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signBracketOpen) { // [
 
-		TreeNode* index = new TreeNode(parent, Rule::IndexNode);
+		TreeNode* index = new TreeNode(parent, Rules::IndexNode);
 		error = !parent->setChild(index);
 
 		TreeNode* bracketOpen = new TreeNode(index, currentToken);
@@ -458,7 +459,7 @@ void Parser::INDEX(TreeNode* parent) {
 		}
 
 	} else { //epsilon
-		TreeNode* epsilon = new TreeNode(parent, Rule::Epsilon);
+		TreeNode* epsilon = new TreeNode(parent, Rules::Epsilon);
 		error = !parent->setChild(epsilon);
 	}
 
@@ -476,7 +477,7 @@ void Parser::OP_EXP(TreeNode* parent) {
 			currentToken->getType() == State::signECEquals ||
 			currentToken->getType() == State::signDoubleAnd)) { // + | - | * | : | < | > | = | =:= | &&
 
-		TreeNode* opExp = new TreeNode (parent, Rule::Op_ExpNode);
+		TreeNode* opExp = new TreeNode (parent, Rules::Op_ExpNode);
 		error = !parent->setChild(opExp);
 		OP(opExp);
 
@@ -484,7 +485,7 @@ void Parser::OP_EXP(TreeNode* parent) {
 
 	} else { //epsilon
 
-		TreeNode* epsilon = new TreeNode(parent, Rule::Epsilon);
+		TreeNode* epsilon = new TreeNode(parent, Rules::Epsilon);
 		error = !parent->setChild(epsilon);
 	}
 
@@ -494,7 +495,7 @@ void Parser::OP(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signPlus) { // +
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -504,7 +505,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signMinus) { // -
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -514,7 +515,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signStar) { // *
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -524,7 +525,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signColon) { // :
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -534,7 +535,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signSmaller) { // <
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -544,7 +545,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signBigger) { // >
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -554,7 +555,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signEquals) { // =
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -564,7 +565,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signECEquals) { // =:=
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -574,7 +575,7 @@ void Parser::OP(TreeNode* parent) {
 
 	} else if (currentToken->getType() == State::signDoubleAnd) { // &&
 
-		TreeNode* op = new TreeNode(parent, Rule::OpNode);
+		TreeNode* op = new TreeNode(parent, Rules::OpNode);
 		error = !parent->setChild(op);
 
 		TreeNode* leaf = new TreeNode(op, currentToken);
@@ -653,6 +654,5 @@ void Parser::errorMessage(State::Type type) {
 			currentToken->getLine(), currentToken->getColumn(), StrType);
 	error = true;
 }
-
 
 

@@ -29,6 +29,7 @@ public:
 
 	bool parse();
 
+
 private:
 
 	Scanner* scanner;

@@ -9,35 +9,9 @@
 #define PARSER_INCLUDES_TREENODE_H_
 
 #include "../../Token/includes/Token.h"
-
-/*
- * Types of rules for the Node
- */
-typedef enum {
-
-	ProgNode,
-	DeclsNode,
-	DeclNode,
-	ArrayNode,
-	StatsNode,
-	StatAssignment,
-	StatWrite,
-	StatRead,
-	StatStatements,
-	StatIfElse,
-	StatWhile,
-	ExpNode,
-	Exp2Brackets,
-	Exp2Identifier,
-	Exp2Integer,
-	Exp2Minus,
-	Exp2Exclamation,
-	IndexNode,
-	Op_ExpNode,
-	OpNode,
-	Epsilon,
-	LeafNode
-} Rule;
+#include "../../Symboltable/includes/Symboltable.h"
+#include "Rules.h"
+#include "TypeCheck.h"
 
 
 /*
@@ -46,12 +20,26 @@ typedef enum {
  * no child nodes
  */
 class TreeNode {
+
+private:
+
+	TreeNode* parent;
+	Rules::Rule rule;
+	Token* token;
+	TreeNode** children;
+
+	//	TypeCheck type;
+
+	int childIndex;
+
+	void setChildNumbers();
+
 public:
 
 	/**
 	 * creates a new Node
 	 */
-	TreeNode(TreeNode* parent, Rule rule);
+	TreeNode(TreeNode* parent, Rules::Rule rule);
 
 	/**
 	 * creates a new Leaf
@@ -60,23 +48,18 @@ public:
 
 	~TreeNode();
 
-	Rule getRule();
+	Rules::Rule getRule();
 
 	TreeNode* getParent();
 
 	Token* getToken();
 
+	//TypeCheck getType();
+
 	bool setChild(TreeNode* child);
 
-private:
+	//bool typeCheck(Symboltable* symTab);
 
-	TreeNode* parent;
-	Rule rule;
-	Token* token;
-	TreeNode** children;
-	int childIndex;
-
-	void setChildNumbers();
 };
 
 

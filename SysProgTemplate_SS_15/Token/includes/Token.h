@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "../../Automat/includes/State.h"
 #include "../../Symboltable/includes/Key.h"
-
+#include "../../Parser/includes/TypeCheck.h"
 
 class Token {
 public:
@@ -25,7 +25,9 @@ public:
 	int getLine();
 	int getColumn();
 	Key* getKey();
+	TypeCheck::Type getTypeCheck();
 	void setKey(Key* newKey);
+	void setTypeCheck(TypeCheck::Type type);
 
 private:
 	State::Type type;
@@ -34,6 +36,8 @@ private:
 	int line;
 	int column;
 	Key* key;
+
+	TypeCheck::Type typeCheck;
 
 
 };

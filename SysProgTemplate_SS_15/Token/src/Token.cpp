@@ -23,6 +23,7 @@ Token::Token (char* value, int line, int column, State::Type type, int size) {
 	this->contentInt = 0;
 	this->content = new char[size + 1];
 	this->key = NULL;
+	//this->typeCheck = TypeCheck::noType;
 
 	if (type == State::Integer) {
 		errno = 0;
@@ -79,3 +80,11 @@ void Token::setKey(Key* newKey) {
 	this->key = newKey;
 }
 
+/*void Token::setTypeCheck(TypeCheck type) {
+	this->typeCheck = type;
+}
+
+TreeNode::TypeCheck Token::getTypeCheck() {
+	return this->typeCheck;
+}
+*/
