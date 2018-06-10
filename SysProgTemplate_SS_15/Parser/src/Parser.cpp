@@ -8,6 +8,9 @@
 
 #include "../includes/Parser.h"
 
+/**
+ * Constructor for the parser
+ */
 Parser::Parser(char* filename) {
 	scanner = new Scanner(filename);
 	currentToken = scanner->nextToken();
@@ -20,13 +23,23 @@ Parser::~Parser() {
 
 }
 
+/**
+ * initializes whole parsing process
+ * returns true if parsing was successful
+ */
 bool Parser::parse () {
 
 	fprintf (stdout, "parsing...\n");
 	PROG();
+
 	return !error;
 }
 
+TreeNode* Parser::getRoot() {
+	return this->root;
+}
+
+//PROG := DECLS STATEMENTS
 void Parser::PROG() {
 
 	root = new TreeNode(NULL, Rules::ProgNode);
@@ -34,6 +47,7 @@ void Parser::PROG() {
 	STATEMENTS(root);
 }
 
+//DECLS := DECL;DECLS | Epsilon
 void Parser::DECLS(TreeNode* parent) {
 
 	if (!error && currentToken->getType() == State::intState) { //Token == int
@@ -61,6 +75,7 @@ void Parser::DECLS(TreeNode* parent) {
 	}
 }
 
+//DECL := int ARRAY identifier
 void Parser::DECL(TreeNode* parent) {
 
 
@@ -85,6 +100,7 @@ void Parser::DECL(TreeNode* parent) {
 
 }
 
+//ARRAY := [integer] | Epsilon
 void Parser::ARRAY(TreeNode* parent) {
 
 
@@ -124,6 +140,7 @@ void Parser::ARRAY(TreeNode* parent) {
 	}
 }
 
+//STATEMENTS := STATEMENT;STATEMENTS | Epsilon
 void Parser::STATEMENTS(TreeNode* parent) {
 
 
@@ -157,6 +174,12 @@ void Parser::STATEMENTS(TreeNode* parent) {
 	}
 }
 
+//STATEMENT := identifier INDEX := EXP
+//STATEMENT := write(EXP)
+//STATEMENT := read(identifier INDEX)
+//STATEMENT := {STATEMENTS}
+//STATEMENT := if(EXP) STATEMENT else STATEMENT
+//STATEMENT := while(EXP) STATEMENT
 void Parser::STATEMENT(TreeNode* parent) {
 
 	if (!error) {
@@ -354,6 +377,7 @@ void Parser::STATEMENT(TreeNode* parent) {
 	}
 }
 
+//EXP := EXP2 OP_EXP
 void Parser::EXP(TreeNode* parent) {
 
 	TreeNode* exp = new TreeNode(parent, Rules::ExpNode);
@@ -363,6 +387,11 @@ void Parser::EXP(TreeNode* parent) {
 	OP_EXP(exp);
 }
 
+//EXP2 := (EXP)
+//EXP2 := identifier INDEX
+//EXP2 := integer
+//EXP2 := -EXP2
+//EXP2 := !EXP2
 void Parser::EXP2(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signRoundBracketOpen) { // (
@@ -434,6 +463,7 @@ void Parser::EXP2(TreeNode* parent) {
 
 }
 
+//INDEX := [EXP] | Epsilon
 void Parser::INDEX(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signBracketOpen) { // [
@@ -465,6 +495,7 @@ void Parser::INDEX(TreeNode* parent) {
 
 }
 
+//OP_EXP := OP EXP | Epsilon
 void Parser::OP_EXP(TreeNode* parent) {
 
 	if (!error && (currentToken->getType() == State::signPlus ||
@@ -491,6 +522,15 @@ void Parser::OP_EXP(TreeNode* parent) {
 
 }
 
+//OP := +
+//OP := -
+//OP := *
+//OP := :
+//OP := <
+//OP := >
+//OP := =
+//OP := =:=
+//OP := &&
 void Parser::OP(TreeNode* parent) {
 
 	if (currentToken->getType() == State::signPlus) { // +
@@ -589,6 +629,10 @@ void Parser::OP(TreeNode* parent) {
 	}
 }
 
+/**
+ * To print out the right error message with the
+ * unexpected Token
+ */
 void Parser::errorMessage(State::Type type) {
 
 	char* StrType;

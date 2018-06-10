@@ -12,7 +12,10 @@
 #include "../../Symboltable/includes/Symboltable.h"
 #include "Rules.h"
 #include "TypeCheck.h"
-
+#include "Writer.h"
+#include <iostream>
+#include <cstdio>
+using namespace std;
 
 /*
  * A TreeNode is a node in a ParseTree. It always has a parentnode
@@ -28,7 +31,7 @@ private:
 	Token* token;
 	TreeNode** children;
 
-	//	TypeCheck type;
+	TypeCheck::Type type;
 
 	int childIndex;
 
@@ -54,11 +57,16 @@ public:
 
 	Token* getToken();
 
-	//TypeCheck getType();
+	TypeCheck::Type getType();
 
+	/*
+	 * assigns a child node to the current node
+	 */
 	bool setChild(TreeNode* child);
 
-	//bool typeCheck(Symboltable* symTab);
+	bool typeCheck();
+
+	bool makeCode(Writer* code);
 
 };
 

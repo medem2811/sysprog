@@ -14,4 +14,18 @@ int main (int argc, char **argv) {
 	} else {
 		cout << "stop" << endl;
 	}
+
+	TreeNode* tree = parser->getRoot();
+
+	exit = tree->typeCheck();
+
+	if (exit) {
+		cout << "TypeCheck successful!" << endl;
+	} else {
+		cout << "stop" << endl;
+	}
+
+	Writer* writer = new Writer(argv[2]);
+
+	tree->makeCode(writer);
 }

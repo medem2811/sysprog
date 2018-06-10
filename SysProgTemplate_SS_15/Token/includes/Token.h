@@ -25,9 +25,7 @@ public:
 	int getLine();
 	int getColumn();
 	Key* getKey();
-	TypeCheck::Type getTypeCheck();
 	void setKey(Key* newKey);
-	void setTypeCheck(TypeCheck::Type type);
 
 private:
 	State::Type type;
@@ -37,7 +35,6 @@ private:
 	int column;
 	Key* key;
 
-	TypeCheck::Type typeCheck;
 
 
 };

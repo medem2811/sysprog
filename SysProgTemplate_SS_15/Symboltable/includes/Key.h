@@ -11,6 +11,7 @@
 #define SYMBOLTABLE_INCLUDES_KEY_H_
 
 #include "StringTab.h"
+#include "../../Parser/includes/TypeCheck.h"
 
 class Key {
 public:
@@ -37,9 +38,19 @@ public:
 	 */
 	bool compareLexem(char* lexem);
 
+	/**
+	 * sets the new typeCheck
+	 */
+	void setTypeCheck(TypeCheck::Type type);
+	/**
+	 * returns typeCheck type
+	 */
+	TypeCheck::Type getTypeCheck();
+
 private:
 	char* key;
 	char* type;
+	TypeCheck::Type typeCheck;
 
 };
 

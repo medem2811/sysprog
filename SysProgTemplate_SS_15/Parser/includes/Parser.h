@@ -9,6 +9,7 @@
  */
 #include "../../Scanner/includes/Scanner.h"
 #include "TreeNode.h"
+#include "Writer.h"
 #include <iostream>
 #include <cstdio>
 using namespace std;
@@ -28,6 +29,8 @@ public:
 	~Parser();
 
 	bool parse();
+
+	TreeNode* getRoot();
 
 
 private:

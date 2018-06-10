@@ -12,7 +12,7 @@ TreeNode::TreeNode(TreeNode* parent, Rules::Rule rule) {
 	this->rule = rule;
 	this->childIndex = 0;
 
-//	this->type = TypeCheck::noType;
+	this->type = TypeCheck::noType;
 
 	setChildNumbers();
 }
@@ -24,7 +24,7 @@ TreeNode::TreeNode(TreeNode* parent, Token* token) {
 	this->childIndex = 0;
 	this->children = new TreeNode*[0];
 
-//	this->type = TypeCheck::noType;
+	this->type = TypeCheck::noType;
 }
 
 TreeNode::~TreeNode() {
@@ -34,6 +34,10 @@ TreeNode::~TreeNode() {
 }
 
 
+/**
+ * initializes how many children a node can have tops
+ * not all nodes have to be filled
+ */
 void TreeNode::setChildNumbers() {
 
 	switch ((int) rule) {
@@ -100,6 +104,9 @@ void TreeNode::setChildNumbers() {
 	}
 }
 
+/*
+ * sets a child node at the right index
+ */
 bool TreeNode::setChild(TreeNode* child) {
 
 	//PROG := DECLS STATEMENTS
@@ -141,7 +148,7 @@ bool TreeNode::setChild(TreeNode* child) {
 			return true;
 		} else if (childIndex == 1 && (child->getRule() == Rules::ArrayNode ||
 				child->getRule() == Rules::Epsilon)) {
-			children[2] = child;
+			children[1] = child;
 			childIndex++;
 			return true;
 		} else if (childIndex == 2 && child->getRule() == Rules::LeafNode &&
@@ -289,7 +296,7 @@ bool TreeNode::setChild(TreeNode* child) {
 			return true;
 		} else if (childIndex == 1 && child->getRule() == Rules::LeafNode &&
 				child->getToken()->getType() == State::signRoundBracketOpen) {
-			children[2] = child;
+			children[1] = child;
 			childIndex++;
 			return true;
 		} else if (childIndex == 2 && child->getRule() == Rules::ExpNode) {
@@ -487,6 +494,9 @@ bool TreeNode::setChild(TreeNode* child) {
 			return true;
 		}
 	}
+
+	fprintf(stderr, "Error building parseTree at Token: %s /t Line: %d /t Column: %d",
+			this->token->getValue(), this->token->getLine(), this->token->getColumn());
 	return false;
 }
 
@@ -506,61 +516,526 @@ Token* TreeNode::getToken() {
 	return NULL;
 }
 
-/*
-TypeCheck TreeNode::getType() {
+TypeCheck::Type TreeNode::getType() {
+
+	if (this->rule == Rules::LeafNode && this->token->getType() == State::Identifier) {
+		return this->token->getKey()->getTypeCheck();
+	}
 	return this->type;
 }
 
-bool TreeNode::typeCheck(Symboltable* symTab) {
+
+bool TreeNode::typeCheck() {
 
 	bool check = true;
 
-	if (rule == Rule::ProgNode) {
+	if (rule == Rules::ProgNode) {
 
 		//PROG := DECLS STATEMENTS
 
-		check = children[0]->typeCheck(symTab);
-		check = check & children[1]->typeCheck(symTab);
+		fprintf (stdout, "Begin typecheck...\n");
+
+		check = children[0]->typeCheck();
+		check = check && children[1]->typeCheck();
 		this->type = TypeCheck::noType;
 		return check;
 
-	} else if (rule == Rule::DeclsNode) {
+	} else if (rule == Rules::DeclsNode) {
 
 		//DECLS := DECL;DECLS
 
-		check = children[0]->typeCheck(symTab);
+		check = children[0]->typeCheck();
 
-		if (check && children[2] != NULL && children[2]->getRule() != Rule::Epsilon) {
-			check = check && children[2]->typeCheck(symTab);
+		if (check && children[2] != NULL && children[2]->getRule() != Rules::Epsilon) {
+			check = check && children[2]->typeCheck();
 		}
 		this->type = TypeCheck::noType;
 		return check;
 
-	} else if (rule == Rule::DeclNode) {
+	} else if (rule == Rules::DeclNode) {
 
 		//DECL := int ARRAY identifier
 
-		check = children[1]->typeCheck(symTab);
+		check = children[1]->typeCheck();
 
 		if (check) {
-			if (children[2]->getType != noType ) {
-				//Error
-				this->type = errorType;
-			} else {
-				this->type = noType;
+			if (children[2]->getType() != TypeCheck::noType) {
 
-				if (children[1]->getType() == arrayType) {
-					//Store in Symtab
-					//children[2]->getToken()->
+				Token* error = children[2]->getToken();
+				fprintf(stderr, "ERROR Identifier already defined Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(), error->getValue());
+				this->type = TypeCheck::errorType;
+				return false;
+			} else {
+				this->type = TypeCheck::noType;
+
+				if (children[1]->getType() == TypeCheck::arrayType) {
+					children[2]->getToken()->getKey()->setTypeCheck(TypeCheck::intArrayType);
+				} else {
+					children[2]->getToken()->getKey()->setTypeCheck(TypeCheck::intType);
 				}
 			}
+		} else {
+			this->type = TypeCheck::errorType;
+			return false;
 		}
 
+		return check;
 
+	} else if (rule == Rules::ArrayNode) {
+
+		//ARRAY := [integer] | Epsilon
+
+		if (children[1]->getToken()->getValueInt() > 0) {
+			this->type = TypeCheck::arrayType;
+		} else {
+			Token* error = children[1]->getToken();
+			fprintf(stderr, "ERROR: no valid dimension Line: %d\t Column: %d\t Token: %s\n",
+					error->getLine(), error->getColumn(), error->getValue());
+			this->type = TypeCheck::errorType;
+			return false;
+		}
+		return check;
+	} else if (rule == Rules::StatsNode) {
+
+		//STATEMENTS := STATEMENT; STATEMENTS | Epsilon
+
+		check = children[0]->typeCheck();
+
+		if (check && children[2] != NULL && children[2]->getRule() != Rules::Epsilon) {
+			check &= children[2]->typeCheck();
+		}
+
+		this->type = TypeCheck::noType;
+		return check;
+	} else if (rule == Rules::StatAssignment) {
+
+		//STATEMENT := identifier INDEX := EXP
+
+		check = children[1]->typeCheck();
+		check &= children[3]->typeCheck();
+
+		if (check) {
+			if (children[0]->getType() == TypeCheck::noType) {
+				Token* error = children[0]->getToken();
+				fprintf(stderr, "ERROR: Identifier not defined Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(), error->getValue());
+				return false;
+			} else if (children[3]->getType() == TypeCheck::intType && (
+				(children[0]->getType() == TypeCheck::intType && children[1]->getType() == TypeCheck::noType)
+				|| (children[0]->getType() == TypeCheck::intArrayType && children[1]->getType() == TypeCheck::arrayType)))
+			{
+				this->type = TypeCheck::noType;
+			} else {
+				Token* error = children[0]->getToken();
+				fprintf(stderr, "ERROR: incompatible types Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(), error->getValue());
+				this->type = TypeCheck::errorType;
+				return false;
+			}
+		}
+		return check;
+	} else if (rule == Rules::StatWrite) {
+
+		//STATEMENT := write(EXP)
+		check = children[2]->typeCheck();
+		this->type = TypeCheck::noType;
+
+		return check;
+	} else if (rule == Rules::StatRead) {
+
+		//STATEMENT := read(identifier INDEX)
+		check = children[3]->typeCheck();
+
+		if (check) {
+			if (children[2]->getType() == TypeCheck::noType) {
+				Token* error = children[2]->getToken();
+				fprintf(stderr, "ERROR: Identifier not defined Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(),error->getValue());
+				return false;
+			} else if (
+					(children[2]->getType() == TypeCheck::intType && children[3]->getType() == TypeCheck::noType)
+					|| (children[2]->getType() == TypeCheck::intArrayType && children[3]->getType() == TypeCheck::arrayType))
+			{
+				this->type = TypeCheck::noType;
+			} else {
+				Token* error = children[2]->getToken();
+				fprintf(stderr, "ERROR: incompatible types Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(), error->getValue());
+				this->type = TypeCheck::errorType;
+				return false;
+			}
+		}
+		return check;
+
+	} else if (rule == Rules::StatStatements) {
+
+		//STATEMENT := {STATEMENTS}
+
+		check = children[1]->typeCheck();
+		this->type = TypeCheck::noType;
+
+		return check;
+	} else if (rule == Rules::StatIfElse) {
+
+		//STATEMENT := if (EXP) STATEMENT else STATEMENT
+
+		check = children[2]->typeCheck();
+		check &= children[4]->typeCheck();
+		check &= children[6]->typeCheck();
+
+		if (!check || children[2]->getType() == TypeCheck::errorType) {
+			this->type = TypeCheck::errorType;
+			return false;
+		} else {
+			this->type = TypeCheck::noType;
+		}
+		return check;
+	} else if (rule == Rules::StatWhile) {
+
+		//STATEMENT := while (EXP) STATEMENT
+
+		check = children[2]->typeCheck();
+		check &= children[4]->typeCheck();
+
+		if (!check || children[2]->getType() == TypeCheck::errorType) {
+			this->type = TypeCheck::errorType;
+			return false;
+		} else {
+			this->type = TypeCheck::noType;
+		}
+		return check;
+	} else if (rule == Rules::IndexNode) {
+
+		//INDEX := [EXP]
+
+		check = children[1]->typeCheck();
+		if (!check || children[1]->getType() == TypeCheck::errorType) {
+			this->type = TypeCheck::errorType;
+			return false;
+		} else {
+			this->type = TypeCheck::arrayType;
+		}
+		return check;
+	} else if (rule == Rules::ExpNode) {
+
+		//EXP := EXP2 OP_EXP
+
+		check = children[0]->typeCheck();
+		check &= children[1]->typeCheck();
+
+		if (check && children[1]->getType() == TypeCheck::noType) {
+			this->type = children[0]->getType();
+		} else if (children[0]->getType() != children[1]->getType()) {
+			this->type = TypeCheck::errorType;
+			return false;
+		} else {
+			this->type = children[0]->getType();
+		}
+		return check;
+	} else if (rule == Rules::Exp2Brackets) {
+
+		//EXP := (EXP)
+
+		check = children[1]->typeCheck();
+		this->type = children[1]->getType();
+		return check;
+	} else if (rule == Rules::Exp2Identifier) {
+
+		//EXP := identifier INDEX
+
+		check = children[1]->typeCheck();
+
+		if(check) {
+			if (children[1]->getType() == TypeCheck::noType) {
+				Token* error = children[0]->getToken();
+				fprintf(stderr, "ERROR: identifier not defined Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(), error->getValue());
+				this->type = TypeCheck::errorType;
+				return false;
+			} else if (children[0]->getType() == TypeCheck::intType &&
+					children[1]->getType() == TypeCheck::noType) {
+				this->type = children[0]->getType();
+			} else if (children[0]->getType() == TypeCheck::intArrayType &&
+					children[1]->getType() == TypeCheck::arrayType) {
+				this->type = TypeCheck::intType;
+			} else {
+				Token* error = children[0]->getToken();
+				fprintf(stderr, "ERROR: no primitive Type Line: %d\t Column: %d\t Token: %s\n",
+						error->getLine(), error->getColumn(), error->getValue());
+				this->type = TypeCheck::errorType;
+				return false;
+			}
+		}
+		return check;
+	} else if (rule == Rules::Exp2Integer) {
+		this->type = TypeCheck::intType;
+		return check;
+	} else if (rule == Rules::Exp2Minus) {
+		check = children[1]->typeCheck();
+		this->type = children[1]->getType();
+		return check;
+	} else if (rule == Rules::Exp2Exclamation) {
+		check = children[1]->typeCheck();
+		if (children[1]->getType() != TypeCheck::intType) {
+			this->type = TypeCheck::errorType;
+			return false;
+		} else {
+			this->type = TypeCheck::intType;
+		}
+
+		return check;
+	} else if (rule == Rules::Op_ExpNode) {
+
+		//OP_EXP := OP EXP
+
+		check = children[0]->typeCheck();
+		check &= children[1]->typeCheck();
+
+		this->type = children[1]->getType();
+
+		return check;
+	} else if (rule == Rules::OpNode) {
+
+		TreeNode* child = children[0];
+		if (child->getToken()->getType() == State::signPlus) {
+			this->type = TypeCheck::opPlus;
+		} else if (child->getToken()->getType() == State::signMinus) {
+			this->type = TypeCheck::opMinus;
+		} else if (child->getToken()->getType() == State::signStar) {
+			this->type = TypeCheck::opMulti;
+		} else if (child->getToken()->getType() == State::signColon) {
+			this->type = TypeCheck::opDiv;
+		} else if (child->getToken()->getType() == State::signSmaller) {
+			this->type = TypeCheck::opLess;
+		} else if (child->getToken()->getType() == State::signBigger) {
+			this->type = TypeCheck::opGreater;
+		} else if (child->getToken()->getType() == State::signEquals) {
+			this->type = TypeCheck::opEqual;
+		} else if (child->getToken()->getType() == State::signECEquals) {
+			this->type = TypeCheck::opUnEqual;
+		} else if (child->getToken()->getType() == State::signDoubleAnd) {
+			this->type = TypeCheck::opAnd;
+		}
 	}
 
-
-
-	return true;
+	return check;
 }
-*/
+
+bool TreeNode::makeCode(Writer* code) {
+
+	bool check = true;
+	if (rule == Rules::ProgNode) {
+		//PROG := DECLS STATEMENTS
+
+		fprintf (stdout, "making Code...");
+		check = children[0]->makeCode(code);
+		check &= children[1]->makeCode(code);
+
+		code->write("STP ");
+	} else if (rule == Rules::DeclsNode) {
+		//DECLS := DECL; DECLS
+		check = children[0]->makeCode(code);
+		if (check && children[2] != NULL) {
+			check &= children[2]->makeCode(code);
+		}
+
+	} else if (rule == Rules::DeclNode) {
+		//DECL := int ARRAY identifier
+
+		code->write((char*)"DS $ ");
+		code->write(children[2]->getToken()->getValue());
+		code->write((char*) " ");
+		check = children[1]->makeCode(code);
+	} else if (rule == Rules::ArrayNode) {
+		//ARRAY := [integer]
+
+		if (children[0]->getRule() != Rules::Epsilon) {
+			code->write(children[1]->getToken()->getValue());
+			code->write((char*)" ");
+		} else {
+			code->write((char*)"1 ");
+		}
+	} else if (rule == Rules::StatsNode) {
+		//STATEMENTS := STATEMENT; STATEMENTS
+
+		if (children[0]->getRule() == Rules::Epsilon) {
+			code->write((char*)"NOP ");
+		} else {
+			check = children[0]->makeCode(code);
+			check &= children[2]->makeCode(code);
+		}
+	} else if (rule == Rules::StatAssignment) {
+		//STAT := identifier INDEX := EXP
+
+		check = children[3]->makeCode(code);
+		code->write((char*)"LA $ ");
+		code->write(children[0]->getToken()->getValue());
+		code->write((char*)" ");
+		check &= children[1]->makeCode(code);
+		code->write((char*)"STR ");
+
+	} else if (rule == Rules::StatWrite) {
+		//STAT := write(EXP)
+
+		check = children[2]->makeCode(code);
+		code->write((char*)"PRI ");
+
+	} else if (rule == Rules::StatRead) {
+		//STAT := read(identifier INDEX)
+
+		code->write((char*)"REA ");
+		code->write((char*)"LA $ ");
+		code->write((char*)children[2]->getToken()->getValue());
+		code->write((char*)" ");
+		check = children[3]->makeCode(code);
+		code->write((char*)"STR ");
+
+	} else if (rule == Rules::StatStatements) {
+		//STAT := {STATEMENTS}
+		check = children[1]->makeCode(code);
+
+	} else if (rule == Rules::StatIfElse) {
+		//STAT := if (EXP) STATEMENT else STATEMENT
+
+		char* label1 = (char*)"1";
+		char* label2 = (char*)"2";
+
+		check = children[2]->makeCode(code);
+
+		code->write((char*)"JIN  # ");
+		code->write((char*)label1);
+		code->write((char*)" ");
+
+		check &= children[4]->makeCode(code);
+
+		code->write((char*)"JMP # ");
+		code->write((char*)label2);
+		code->write((char*)" ");
+		code->write((char*)"# ");
+		code->write((char*)label2);
+		code->write((char*)" NOP ");
+
+		check &= children[6]->makeCode(code);
+
+		code->write((char*)"# ");
+		code->write((char*)label2);
+		code->write((char*)" NOP ");
+
+	} else if (rule == Rules::StatWhile) {
+		//STAT := while (EXP) Statement
+
+		char* label1 = (char*)"1";
+		char* label2 = (char*)"2";
+
+		code->write((char*)"# ");
+		code->write((char*)label1);
+		code->write((char*)" NOP ");
+
+		check = children[2]->makeCode(code);
+
+		code->write((char*)"JIN ");
+		code->write((char*)"# ");
+		code->write((char*)label2);
+		code->write((char*)" ");
+
+		check &= children[4]->makeCode(code);
+
+		code->write((char*)"JMP # ");
+		code->write((char*)label1);
+		code->write((char*)" # ");
+		code->write((char*)label2);
+		code->write((char*)" NOP ");
+
+	} else if (rule == Rules::ExpNode) {
+		//EXP := EXP2 OP_EXP
+
+		if (children[1]->getType() == TypeCheck::noType) {
+			check = children[0]->makeCode(code);
+		} else if (children[1]->children[0]->getType() == TypeCheck::opGreater) {
+			check = children[1]->makeCode(code);
+			check &= children[0]->makeCode(code);
+			code->write((char*)"LES ");
+		} else if (children[1]->children[0]->getType() == TypeCheck::opUnEqual) {
+			check = children[0]->makeCode(code);
+			check &= children[1]->makeCode(code);
+			code->write((char*)"NOT ");
+		} else {
+			check = children[0]->makeCode(code);
+			check &= children[1]->makeCode(code);
+		}
+
+	} else if (rule == Rules::IndexNode) {
+		//INDEX := [EXP]
+
+		if (children[0]->getRule() != Rules::Epsilon) {
+			check = children[1]->makeCode(code);
+			code->write((char*)"ADD ");
+		}
+
+	} else if (rule == Rules::Exp2Brackets) {
+		//EXP2 := (EXP)
+
+		check = children[1]->makeCode(code);
+
+	} else if (rule == Rules::Exp2Identifier) {
+		//EXP2 := identifier INDEX
+
+		code->write((char*)"LA $ ");
+		code->write((char*)children[0]->getToken()->getValue());
+		code->write((char*)" ");
+
+		check = children[1]->makeCode(code);
+
+		code->write((char*)"LV ");
+
+	} else if (rule == Rules::Exp2Integer) {
+		//EXP2 := integer
+
+		code->write((char*)"LC ");
+		code->write((char*)children[0]->getToken()->getValueInt());
+		code->write((char*)" ");
+
+	} else if (rule == Rules::Exp2Minus) {
+		//EXP2 := -EXP
+		code->write((char*)"LC 0 ");
+		check = children[1]->makeCode(code);
+		code->write((char*)"SUB ");
+
+	} else if (rule == Rules::Exp2Exclamation) {
+		//EXP := !EXP
+
+		check = children[1]->makeCode(code);
+		code->write((char*)"NOT ");
+
+	} else if (rule == Rules::Op_ExpNode) {
+		//OP_EXP := OP EXP
+
+		if (children[0]->getRule() != Rules::Epsilon) {
+			check = children[1]->makeCode(code);
+			check &= children[0]->makeCode(code);
+		}
+
+	} else if (rule == Rules::OpNode) {
+
+		if (this->type == TypeCheck::opPlus) {
+			code->write((char*)"ADD ");
+		} else if (this->type == TypeCheck::opMinus) {
+			code->write((char*)"SUB ");
+		} else if (this->type == TypeCheck::opMulti) {
+			code->write((char*)"MUL ");
+		} else if (this->type == TypeCheck::opDiv) {
+			code->write((char*)"DIV ");
+		} else if (this->type == TypeCheck::opLess) {
+			code->write((char*)"LES ");
+		} else if (this->type == TypeCheck::opEqual) {
+			code->write((char*)"EQU ");
+		} else if (this->type == TypeCheck::opUnEqual) {
+			code->write((char*)"EQU ");
+		} else if (this->type == TypeCheck::opAnd) {
+			code->write((char*)"AND ");
+		}
+	}
+
+	return check;
+}

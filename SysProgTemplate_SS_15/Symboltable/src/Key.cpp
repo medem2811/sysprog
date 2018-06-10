@@ -11,6 +11,8 @@ Key::Key(char* myPos, char* type) {
 
 	this->key = myPos;
 	this->type = type;
+	this->typeCheck = TypeCheck::noType;
+
 }
 
 Key::~Key() {
@@ -25,6 +27,13 @@ char* Key::getType() {
 	return this->type;
 }
 
+void Key::setTypeCheck(TypeCheck::Type type) {
+	this->typeCheck = type;
+}
+
+TypeCheck::Type Key::getTypeCheck() {
+	return this->typeCheck;
+}
 /*
  * Compares two Lexems with each other to see
  * if there already exists a key for this lexem
