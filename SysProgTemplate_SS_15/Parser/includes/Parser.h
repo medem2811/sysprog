@@ -9,7 +9,6 @@
  */
 #include "../../Scanner/includes/Scanner.h"
 #include "TreeNode.h"
-#include "Writer.h"
 #include <iostream>
 #include <cstdio>
 using namespace std;
@@ -25,7 +24,7 @@ public:
 	/**
 	 * Constructor and Destructor
 	 */
-	Parser(char* filename);
+	Parser(char* in);
 	~Parser();
 
 	bool parse();

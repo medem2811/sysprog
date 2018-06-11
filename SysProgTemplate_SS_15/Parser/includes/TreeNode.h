@@ -12,7 +12,6 @@
 #include "../../Symboltable/includes/Symboltable.h"
 #include "Rules.h"
 #include "TypeCheck.h"
-#include "Writer.h"
 #include <iostream>
 #include <cstdio>
 using namespace std;
@@ -57,6 +56,8 @@ public:
 
 	Token* getToken();
 
+	TreeNode* getChild(int index);
+
 	TypeCheck::Type getType();
 
 	/*
@@ -66,7 +67,6 @@ public:
 
 	bool typeCheck();
 
-	bool makeCode(Writer* code);
 
 };
 

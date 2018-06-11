@@ -4,6 +4,7 @@
  *  Created on: 10.06.2018
  *      Author: mella
  */
+#include "TreeNode.h"
 #include <fstream>
 using namespace std;
 
@@ -14,17 +15,16 @@ using namespace std;
 class Writer {
 
 public:
-	Writer(char* filename) {
-		out.open(filename);
-	}
+	Writer(char* filename);
 	~Writer();
 
-	void write(char* text) {
-		out << text;
-	}
+	bool makeCode(TreeNode* root);
 
 private:
-	ofstream out;
+	ofstream code;
+	int labels;
+
+	int getLabels();
 };
 
 

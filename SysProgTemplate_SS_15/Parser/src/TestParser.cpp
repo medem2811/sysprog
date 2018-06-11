@@ -1,3 +1,5 @@
+
+#include "../includes/Writer.h"
 #include "../includes/Parser.h"
 
 
@@ -25,7 +27,8 @@ int main (int argc, char **argv) {
 		cout << "stop" << endl;
 	}
 
-	Writer* writer = new Writer(argv[2]);
+	Writer* write = new Writer(argv[2]);
+	write->makeCode(tree);
 
-	tree->makeCode(writer);
+
 }

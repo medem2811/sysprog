@@ -11,8 +11,8 @@
 /**
  * Constructor for the parser
  */
-Parser::Parser(char* filename) {
-	scanner = new Scanner(filename);
+Parser::Parser(char* in) {
+	scanner = new Scanner(in);
 	currentToken = scanner->nextToken();
 	prevToken = NULL;
 	error = false;
