@@ -29,7 +29,7 @@ bool Writer::makeCode(TreeNode* root) {
 		check = makeCode(root->getChild(0));
 		check &= makeCode(root->getChild(1));
 
-		code << "STP ";
+		code << "STP\n";
 		code.close();
 	} else if (root->getRule() == Rules::DeclsNode) {
 		//DECLS := DECL; DECLS
@@ -41,24 +41,26 @@ bool Writer::makeCode(TreeNode* root) {
 	} else if (root->getRule() == Rules::DeclNode) {
 		//DECL := int ARRAY identifier
 
-		code << "DS " << "$ ";
+		code << "DS " << "$";
 		code << root->getChild(2)->getToken()->getValue();
-		code << " ";
-		check = makeCode(root->getChild(1));
+
+		if (root->getChild(1)->getRule() == Rules::Epsilon) {
+			code << " 1\n";
+		} else {
+			check = makeCode(root->getChild(1));
+		}
 	} else if (root->getRule() == Rules::ArrayNode) {
 		//ARRAY := [integer]
 
-		if (root->getChild(0)->getRule() != Rules::Epsilon) {
-			code << root->getChild(1)->getToken()->getValue();
-			code << " ";
-		} else {
-			code << "1 ";
-		}
+		code << " ";
+		code << root->getChild(1)->getToken()->getValue();
+		code << "\n";
+
 	} else if (root->getRule() == Rules::StatsNode) {
 		//STATEMENTS := STATEMENT; STATEMENTS
 
 		if (root->getChild(0)->getRule() == Rules::Epsilon) {
-			code << "NOP ";
+			code << "NOP\n";
 		} else {
 			check = makeCode(root->getChild(0));
 			check &= makeCode(root->getChild(2));
@@ -67,27 +69,29 @@ bool Writer::makeCode(TreeNode* root) {
 		//STAT := identifier INDEX := EXP
 
 		check = makeCode(root->getChild(3));
-		code << "LA " << "$ ";
+		code << "LA " << "$";
 		code << root->getChild(0)->getToken()->getValue();
-		code << " ";
+		code << "\n";
+
 		check &= makeCode(root->getChild(1));
-		code << "STR ";
+		code << "STR\n";
 
 	} else if (root->getRule() == Rules::StatWrite) {
 		//STAT := write(EXP)
 
 		check = makeCode(root->getChild(2));
-		code << "PRI ";
+		code << "PRI\n";
 
 	} else if (root->getRule() == Rules::StatRead) {
 		//STAT := read(identifier INDEX)
 
-		code << "REA ";
-		code << "LA $ ";
+		code << "REA\n";
+		code << "LA $";
 		code << root->getChild(2)->getToken()->getValue();
-		code << " ";
+		code << "\n";
+
 		check = makeCode(root->getChild(3));
-		code << "STR ";
+		code << "STR\n";
 
 	} else if (root->getRule() == Rules::StatStatements) {
 		//STAT := {STATEMENTS}
@@ -101,24 +105,24 @@ bool Writer::makeCode(TreeNode* root) {
 
 		check = makeCode(root->getChild(2));
 
-		code << "JIN " << "# ";
-		code << label1;
-		code << " ";
+		code << "JIN " << "#";
+		code << "label" << label1;
+		code << "\n";
 
 		check &= makeCode(root->getChild(4));
 
-		code << "JMP " << "# ";
-		code << label2;
-		code << " ";
-		code << "# ";
-		code << label2;
-		code << " NOP ";
+		code << "JMP " << "#";
+		code << "label" << label2;
+		code << "\n";
+		code << "#";
+		code << "label" << label1;
+		code << "\nNOP\n";
 
 		check &= makeCode(root->getChild(6));
 
-		code << "# ";
-		code << label2;
-		code << " NOP ";
+		code << "#";
+		code << "label" << label2;
+		code << "\nNOP\n";
 
 	} else if (root->getRule() == Rules::StatWhile) {
 		//STAT := while (EXP) Statement
@@ -126,24 +130,24 @@ bool Writer::makeCode(TreeNode* root) {
 		int label1 = getLabels();
 		int label2 = getLabels();
 
-		code << "# ";
-		code << label1;
-		code << " NOP ";
+		code << "#";
+		code << "label" << label1;
+		code << "\nNOP\n";
 
 		check = makeCode(root->getChild(2));
 
 		code << "JIN ";
-		code << "# ";
-		code << label2;
-		code << " ";
+		code << "#";
+		code << "label" << label2;
+		code << "\n";
 
 		check &= makeCode(root->getChild(4));
 
-		code << "JMP " << "# ";
-		code << label1;
-		code << " # ";
-		code << label2;
-		code << " NOP ";
+		code << "JMP " << "#";
+		code << "label" << label1;
+		code << "\n#";
+		code << "label" << label2;
+		code << "\nNOP\n";
 
 	} else if (root->getRule() == Rules::ExpNode) {
 		//EXP := EXP2 OP_EXP
@@ -153,11 +157,11 @@ bool Writer::makeCode(TreeNode* root) {
 		} else if (root->getChild(1)->getChild(0)->getType() == TypeCheck::opGreater) {
 			check = makeCode(root->getChild(1));
 			check &= makeCode(root->getChild(0));
-			code << "LES ";
+			code << "LES\n";
 		} else if (root->getChild(1)->getChild(0)->getType() == TypeCheck::opUnEqual) {
 			check = makeCode(root->getChild(0));
 			check &= makeCode(root->getChild(1));
-			code << "NOT ";
+			code << "NOT\n";
 		} else {
 			check = makeCode(root->getChild(0));
 			check &= makeCode(root->getChild(1));
@@ -168,7 +172,7 @@ bool Writer::makeCode(TreeNode* root) {
 
 		if (root->getChild(0)->getRule() != Rules::Epsilon) {
 			check = makeCode(root->getChild(1));
-			code << "ADD ";
+			code << "ADD\n";
 		}
 
 	} else if (root->getRule() == Rules::Exp2Brackets) {
@@ -179,32 +183,32 @@ bool Writer::makeCode(TreeNode* root) {
 	} else if (root->getRule() == Rules::Exp2Identifier) {
 		//EXP2 := identifier INDEX
 
-		code << "LA " << "$ ";
+		code << "LA " << "$";
 		code << root->getChild(0)->getToken()->getValue();
-		code << " ";
+		code << "\n";
 
 		check = makeCode(root->getChild(1));
 
-		code << "LV ";
+		code << "LV\n";
 
 	} else if (root->getRule() == Rules::Exp2Integer) {
 		//EXP2 := integer
 
 		code << "LC ";
 		code << root->getChild(0)->getToken()->getValue();
-		code << " ";
+		code << "\n";
 
 	} else if (root->getRule() == Rules::Exp2Minus) {
 		//EXP2 := -EXP
-		code << "LC " << "0 ";
+		code << "LC " << "0\n";
 		check = makeCode(root->getChild(1));
-		code << "SUB ";
+		code << "SUB\n";
 
 	} else if (root->getRule() == Rules::Exp2Exclamation) {
 		//EXP := !EXP
 
 		check = makeCode(root->getChild(1));
-		code << "NOT ";
+		code << "NOT\n";
 
 	} else if (root->getRule() == Rules::Op_ExpNode) {
 		//OP_EXP := OP EXP
@@ -217,21 +221,21 @@ bool Writer::makeCode(TreeNode* root) {
 	} else if (root->getRule() == Rules::OpNode) {
 
 		if (root->getType() == TypeCheck::opPlus) {
-			code << "ADD ";
+			code << "ADD\n";
 		} else if (root->getType() == TypeCheck::opMinus) {
-			code << "SUB ";
+			code << "SUB\n";
 		} else if (root->getType() == TypeCheck::opMulti) {
-			code << "MUL ";
+			code << "MUL\n";
 		} else if (root->getType() == TypeCheck::opDiv) {
-			code << "DIV ";
+			code << "DIV\n";
 		} else if (root->getType() == TypeCheck::opLess) {
-			code << "LES ";
+			code << "LES\n";
 		} else if (root->getType() == TypeCheck::opEqual) {
-			code << "EQU ";
+			code << "EQU\n";
 		} else if (root->getType() == TypeCheck::opUnEqual) {
-			code << "EQU ";
+			code << "EQU\n";
 		} else if (root->getType() == TypeCheck::opAnd) {
-			code << "AND ";
+			code << "AND\n";
 		}
 	}
 
@@ -240,5 +244,6 @@ bool Writer::makeCode(TreeNode* root) {
 }
 
 int Writer::getLabels() {
+
 	return ++labels;
 }
