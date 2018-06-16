@@ -1,33 +1,10 @@
 :* KOmmentar *:
 
 int name;
-int [2] name2;
 
+read(name);
 
-if (!7 && 9)
-
- name := 8 + (7 - name2[3])
- else  
-{
-};
-
-name2 [name2[3]] := 6;
-name2 [5] := -5;
-name := name2 [5];
-
-write((5 + 5) * 5);
-read (name);
-read (name2[1]);
-
-{ 
-name := 8 && 8;
-};
-
-if (!7 && 9)
-{
-name := 8 + (7 - name2[3]);
-} else 
-{
-};
-while (5 < 8) {
+while (name > 0) {
+write(name);
+name := name - 1;
 };

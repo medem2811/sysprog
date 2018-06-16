@@ -747,7 +747,7 @@ bool TreeNode::typeCheck() {
 		check = children[1]->typeCheck();
 
 		if(check) {
-			if (children[1]->getType() == TypeCheck::noType) {
+			if (children[0]->getType() == TypeCheck::noType) {
 				Token* error = children[0]->getToken();
 				fprintf(stderr, "ERROR: identifier not defined Line: %d\t Column: %d\t Token: %s\n",
 						error->getLine(), error->getColumn(), error->getValue());
